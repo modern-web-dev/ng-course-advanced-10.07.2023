@@ -2,13 +2,6 @@
 
   <h1>Hello, World!</h1>
 
-  <p>{{ title }}</p>
-
-  <mat-form-field>
-    <mat-label>Name</mat-label>
-    <input #editor matInput type="text" placeholder="Please fill me..." (input)="updateTitle()" [value]="title">
-  </mat-form-field>
-
-  <router-outlet></router-outlet>
+  <app-book-list></app-book-list>
 
 </article>
