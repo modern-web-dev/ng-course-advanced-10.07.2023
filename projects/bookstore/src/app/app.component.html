@@ -6,7 +6,7 @@
 
   <mat-form-field>
     <mat-label>Name</mat-label>
-    <input #editor matInput type="text" placeholder="Please fill me..." (input)="title = editor.value">
+    <input #editor matInput type="text" placeholder="Please fill me..." (input)="updateTitle()" [value]="title">
   </mat-form-field>
 
   <router-outlet></router-outlet>
