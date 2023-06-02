@@ -7,7 +7,7 @@
     {{ book.title }}, <em>{{ book.author }}</em></li>
 </ul>
 
-<section class="mt-4" *ngIf="selectedBook">
+<section class="mt-4" *ngIf="selectedBook" id="editor">
   <h3>Edit selected book</h3>
   <div>
     <label for="title" class="form-label">Title</label>
