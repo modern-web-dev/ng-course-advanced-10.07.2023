@@ -7,6 +7,7 @@ import {CommonModule} from "@angular/common";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MaterialModule} from "./shared/material.module";
 import {BooksModule} from "./books/books.module";
+import {CoreModule} from "./core/core.module";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {BooksModule} from "./books/books.module";
     CommonModule,
     AppRoutingModule,
     MaterialModule,
-    BooksModule
+    BooksModule,
+    CoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
