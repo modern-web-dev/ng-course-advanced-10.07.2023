@@ -4,7 +4,7 @@ import {Book} from "../model/book";
 @Injectable()
 export class BookService {
 
-  readonly books: Book[] = [{
+  private books: Book[] = [{
     id: 1,
     title: 'Solaris',
     author: 'Stanisław Lem',
@@ -26,5 +26,9 @@ export class BookService {
 
   getBooks(): Book[] {
     return this.books;
+  }
+
+  saveBook(book: Book): void {
+    this.books = this.books.map(value => book.id === value.id ? book : value);
   }
 }

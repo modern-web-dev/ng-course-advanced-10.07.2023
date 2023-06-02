@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Book} from "../../model/book";
 import {BookService} from "../../services/book.service";
 
@@ -9,7 +9,19 @@ import {BookService} from "../../services/book.service";
 })
 export class BookListComponent implements OnInit {
 
+  @ViewChild("title")
+  titleElement!: ElementRef<HTMLInputElement>;
+
+  @ViewChild("author")
+  authorElement!: ElementRef<HTMLInputElement>;
+
+  @ViewChild("description")
+  descriptionElement!: ElementRef<HTMLTextAreaElement>;
+
   books: Book[] = [];
+
+  selectedBook: Book | null = null;
+
   constructor(private readonly bookService: BookService) {
     this.books = this.bookService.getBooks();
   }
@@ -17,4 +29,17 @@ export class BookListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  saveButton(): void {
+    if (this.selectedBook) {
+      const book: Book = {
+        id: this.selectedBook.id,
+        title: this.titleElement.nativeElement.value,
+        author: this.authorElement.nativeElement.value,
+        description: this.descriptionElement.nativeElement.value
+      };
+      this.bookService.saveBook(book);
+      this.selectedBook = null;
+      this.books = this.bookService.getBooks();
+    }
+  }
 }
