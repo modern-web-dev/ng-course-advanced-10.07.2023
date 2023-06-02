@@ -79,6 +79,7 @@ describe("BookListComponent", () => {
 
     it('saves a modified book', () => {
       // given
+      spyOn(bookService, 'saveBook').and.callThrough();
       expect(editor()).toBeFalsy();
       clickBookAt(1);
       detectChanges();
@@ -91,11 +92,12 @@ describe("BookListComponent", () => {
       detectChanges();
       // then
       expect(editor()).toBeFalsy();
-      const modifiedBook = bookService.getBooks()[1];
-      expect(modifiedBook).toBeTruthy();
-      expect(modifiedBook.title).toBe('foo');
-      expect(modifiedBook.author).toBe('bar');
-      expect(modifiedBook.description).toBe('some other description');
+      expect(bookService.saveBook).toHaveBeenCalledOnceWith({
+        id: 2,
+        title: 'foo',
+        author: 'bar',
+        description: 'some other description'
+      });
     });
   });
 
