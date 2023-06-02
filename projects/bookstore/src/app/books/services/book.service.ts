@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {Book} from "../model/book";
 
 @Injectable()
-export class BookService {
+export class BookService implements OnDestroy {
 
   private books: Book[] = [{
     id: 1,
@@ -22,8 +22,12 @@ export class BookService {
   }];
 
   constructor() {
+    console.log('BookService constructor');
   }
-
+  ngOnDestroy(): void {
+    console.log('BookService ngOnDestroy');
+  }
+  
   getBooks(): Book[] {
     return this.books;
   }
