@@ -6,8 +6,11 @@ describe('BookService', () => {
   let service: BookService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [ BookService ]
+    });
     service = TestBed.inject(BookService);
+    // service = new BookService()
   });
 
   it('should be created', () => {
