@@ -9,15 +9,15 @@
 <section *ngIf="selectedBook">
   <mat-form-field>
     <mat-label>Title</mat-label>
-    <input matInput type="text" [value]="selectedBook.title">
+    <input #title matInput type="text" [value]="selectedBook.title">
   </mat-form-field>
   <mat-form-field>
     <mat-label>Author</mat-label>
-    <input matInput type="text" [value]="selectedBook.author">
+    <input #author matInput type="text" [value]="selectedBook.author">
   </mat-form-field>
   <mat-form-field>
     <mat-label>Description</mat-label>
-    <textarea matInput type="text">{{ selectedBook.description }}</textarea>
+    <textarea #description class="v-xx-large" matInput type="text">{{ selectedBook.description }}</textarea>
   </mat-form-field>
   <div>
     <button mat-button color="primary" (click)="save()">Save</button>
