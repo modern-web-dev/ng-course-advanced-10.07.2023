@@ -1,32 +1,5 @@
 <article class="m-4">
   <h1>Hello world, Angular Training class</h1>
 
-  <section class="mt-5">
-    <div class="gidc-form-label-left">
-      <mat-form-field>
-        <mat-label>Title</mat-label>
-        <input
-          id="title"
-          matInput
-          #editor
-          type="text"
-          placeholder="Please fill the title..."
-          [value]="title"
-          (input)="updateTitle()">
-      </mat-form-field>
-    </div>
-
-    <p>
-      <button
-        mat-button
-        color="primary"
-        (blur)="onBlur()"
-        (click)="title = 'bookstore'">Reset
-      </button>
-    </p>
-
-    <p>
-      {{ title }}
-    </p>
-  </section>
+  <app-book-list></app-book-list>
 </article>
