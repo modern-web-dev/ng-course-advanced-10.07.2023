@@ -1,0 +1,13 @@
+mat-form-field {
+  display: block;
+}
+
+.clickable {
+  &:hover {
+    background-color: lightblue;
+  }
+  cursor: pointer;
+  &.selected {
+    background-color: cornflowerblue;
+  }
+}

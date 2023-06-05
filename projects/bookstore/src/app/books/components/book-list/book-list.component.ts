@@ -10,10 +10,19 @@ import {Book} from "../../model/book";
 })
 export class BookListComponent {
 
+  selectedBook: Book | null = null;
+
   books: Book[] = [];
 
   constructor(private readonly booksService: BooksService) {
     this.books = this.booksService.getBooks();
+
   }
 
+  save(): void {
+    if (this.selectedBook) {
+      this.booksService.save(this.selectedBook);
+      this.selectedBook = null;
+    }
+  }
 }
