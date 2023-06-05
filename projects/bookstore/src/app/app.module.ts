@@ -1,13 +1,11 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MatButtonModule} from "@angular/material/button";
 import {GidcRootModule} from "@gidc/pali/root-module";
+import {MaterialModule} from "./shared/material.module";
 
 @NgModule({
   declarations: [
@@ -16,13 +14,12 @@ import {GidcRootModule} from "@gidc/pali/root-module";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MatFormFieldModule,
-    MatInputModule,
     BrowserAnimationsModule,
-    MatButtonModule,
+    MaterialModule,
     GidcRootModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
