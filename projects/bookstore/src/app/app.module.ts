@@ -16,7 +16,6 @@ import {BooksService} from "./books/services/books.service";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     BooksModule,
     GidcRootModule
   ],

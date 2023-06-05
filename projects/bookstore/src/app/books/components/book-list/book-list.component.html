@@ -6,7 +6,7 @@
   </li>
 </ul>
 
-<section *ngIf="selectedBook">
+<section id="editor" *ngIf="selectedBook">
   <mat-form-field>
     <mat-label>Title</mat-label>
     <input #title matInput type="text" [value]="selectedBook.title">

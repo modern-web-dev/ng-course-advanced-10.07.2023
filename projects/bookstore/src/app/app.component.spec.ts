@@ -1,15 +1,14 @@
-import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
+import {TestBed} from '@angular/core/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+import {AppComponent} from './app.component';
 import {Component} from "@angular/core";
-import {BookListComponent} from "./books/components/book-list/book-list.component";
 
-// @Component({
-//   selector: 'app-book-list',
-//   template: ''
-// })
-// class BookListComponentMock {
-// }
+@Component({
+  selector: 'app-book-list',
+  template: ''
+})
+class BookListComponentMock {
+}
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -19,9 +18,12 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        // BookListComponentMock,
-        BookListComponent
+        BookListComponentMock,
+        // BookListComponent
       ],
+      providers: [
+        // BooksService
+      ]
     }).compileComponents();
   });
 
