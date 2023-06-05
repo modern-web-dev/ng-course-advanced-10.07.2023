@@ -8,10 +8,12 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 describe('BookListComponent', () => {
 
   let testedComponent: BookListComponent;
-  let fixture: ComponentFixture<BookListComponent>;
-  let nativeElement: any;
 
   describe('[DOM]', () => {
+
+    let fixture: ComponentFixture<BookListComponent>;
+    let nativeElement: any;
+    let bookService: BooksService;
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
@@ -38,6 +40,7 @@ describe('BookListComponent', () => {
       fixture = TestBed.createComponent(BookListComponent);
       testedComponent = fixture.componentInstance;
       nativeElement = fixture.nativeElement;
+      bookService = TestBed.inject(BooksService);
       detectChanges();
     });
 
@@ -74,6 +77,23 @@ describe('BookListComponent', () => {
       // then
       expect(editor()).toBeFalsy();
       expect(testedComponent.selectedBook).toBeNull();
+    });
+
+    it('it saves unchanged selected book and close editor once save is clicked', () => {
+      // given
+      const bookNo = 1;
+      clickBookAt(bookNo);
+      const bookBeforeChange = bookService.getBooks()[bookNo];
+      detectChanges();
+      expect(editor()).toBeTruthy();
+      expect(testedComponent.selectedBook).toBeTruthy();
+      // when
+      clickSave();
+      detectChanges();
+      // then
+      expect(editor()).toBeFalsy();
+      expect(testedComponent.selectedBook).toBeNull();
+      expect(bookService.getBooks()[bookNo]).toEqual(bookBeforeChange);
     });
   });
 
