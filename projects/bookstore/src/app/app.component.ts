@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'bookstore';
+
+  onBlur() {
+    console.log('blur');
+  }
 }
