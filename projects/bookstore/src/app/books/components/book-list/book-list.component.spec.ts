@@ -25,9 +25,13 @@ describe('BookListComponent', () => {
     // "nouns"
     const bookList = () => nativeElement.querySelectorAll('li.clickable') as NodeList;
     const editor = () => nativeElement.querySelector('#editor') as HTMLElement;
-    const bookAt = (position: number) => bookList().item(position) as HTMLLIElement
+    const bookAt = (position: number) => bookList().item(position) as HTMLLIElement;
+    const saveButton = () => nativeElement.querySelector("button#save") as HTMLButtonElement;
+    const cancelButton = () => nativeElement.querySelector("button#cancel") as HTMLButtonElement;
     // "verbs"
     const clickBookAt = (position: number) => bookAt(position).dispatchEvent(new MouseEvent('click'));
+    const clickCancel = () => cancelButton().dispatchEvent(new MouseEvent('click'));
+    const clickSave = () => saveButton().dispatchEvent(new MouseEvent('click'));
     const detectChanges = () => fixture.detectChanges();
 
     beforeEach(() => {
@@ -56,6 +60,20 @@ describe('BookListComponent', () => {
       // then
       expect(testedComponent.selectedBook).toBeTruthy();
       expect(editor()).toBeTruthy();
+    });
+
+    it('it closes editor once cancel button is clicked', () => {
+      // given
+      clickBookAt(1);
+      detectChanges();
+      expect(editor()).toBeTruthy();
+      expect(testedComponent.selectedBook).toBeTruthy();
+      // when
+      clickCancel();
+      detectChanges();
+      // then
+      expect(editor()).toBeFalsy();
+      expect(testedComponent.selectedBook).toBeNull();
     });
   });
 
