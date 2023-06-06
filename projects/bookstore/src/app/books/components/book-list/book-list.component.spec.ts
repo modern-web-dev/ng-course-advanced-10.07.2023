@@ -30,11 +30,16 @@ describe('BookListComponent', () => {
     const bookAt = (position: number) => bookList().item(position) as HTMLLIElement;
     const saveButton = () => nativeElement.querySelector("button#save") as HTMLButtonElement;
     const cancelButton = () => nativeElement.querySelector("button#cancel") as HTMLButtonElement;
+    const inputElementOfId = (id: string) => nativeElement.querySelector(`input#${id}`) as HTMLInputElement;
+    const titleElement = () => inputElementOfId("title") as HTMLInputElement;
+    const authorElement = () => inputElementOfId("author") as HTMLInputElement;
+    const descriptionElement = () => nativeElement.querySelector("textarea#description") as HTMLTextAreaElement;
     // "verbs"
     const clickBookAt = (position: number) => bookAt(position).dispatchEvent(new MouseEvent('click'));
     const clickCancel = () => cancelButton().dispatchEvent(new MouseEvent('click'));
     const clickSave = () => saveButton().dispatchEvent(new MouseEvent('click'));
     const detectChanges = () => fixture.detectChanges();
+    const editField = (fieldElement: HTMLInputElement | HTMLTextAreaElement, value: string) => fieldElement.value = value;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(BookListComponent);
@@ -57,12 +62,19 @@ describe('BookListComponent', () => {
     });
 
     it('shows an editor once a book is clicked', () => {
+      // given
+      const position = 1;
+      const book = bookService.getBooks()[position];
       // when
-      clickBookAt(1);
+      clickBookAt(position);
       detectChanges();
       // then
       expect(testedComponent.selectedBook).toBeTruthy();
+      expect(testedComponent.selectedBook).toEqual(book);
       expect(editor()).toBeTruthy();
+      expect(titleElement().value).toEqual(book.title);
+      expect(authorElement().value).toEqual(book.author);
+      expect(descriptionElement().value).toEqual(book.description);
     });
 
     it('it closes editor once cancel button is clicked', () => {
@@ -79,11 +91,11 @@ describe('BookListComponent', () => {
       expect(testedComponent.selectedBook).toBeNull();
     });
 
-    it('it saves unchanged selected book and close editor once save is clicked', () => {
+    it('it attempts to save unchanged selected book and close editor once save is clicked', () => {
       // given
-      const bookNo = 1;
-      clickBookAt(bookNo);
-      const bookBeforeChange = bookService.getBooks()[bookNo];
+      const position = 1;
+      clickBookAt(position);
+      const bookBeforeChange = bookService.getBooks()[position];
       detectChanges();
       expect(editor()).toBeTruthy();
       expect(testedComponent.selectedBook).toBeTruthy();
@@ -93,7 +105,30 @@ describe('BookListComponent', () => {
       // then
       expect(editor()).toBeFalsy();
       expect(testedComponent.selectedBook).toBeNull();
-      expect(bookService.getBooks()[bookNo]).toEqual(bookBeforeChange);
+      expect(bookService.getBooks()[position]).toEqual(bookBeforeChange);
+    });
+
+    it('saves a modified book', () => {
+      // given
+      const position = 1;
+      clickBookAt(position);
+      const bookBeforeChange = testedComponent.books[position];
+      detectChanges();
+      const newTitle = 'Foo';
+      const newAuthor = 'Bar';
+      const newDescription = 'Modified description';
+      // when
+      editField(titleElement(), newTitle);
+      editField(authorElement(), newAuthor);
+      editField(descriptionElement(), newDescription);
+      clickSave();
+      // then
+      const modifiedBook = testedComponent.books[position];
+      expect(modifiedBook).toBeTruthy();
+      expect(modifiedBook.title).toEqual(newTitle);
+      expect(modifiedBook.author).toEqual(newAuthor);
+      expect(modifiedBook.description).toEqual(newDescription);
+      expect(modifiedBook.id).toEqual(bookBeforeChange.id);
     });
   });
 
