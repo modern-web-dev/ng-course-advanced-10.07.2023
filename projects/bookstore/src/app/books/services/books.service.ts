@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {Book} from "../model/book";
 @Injectable()
-export class BooksService {
+export class BooksService implements OnDestroy {
 
   private books: Book[] = [{
     id: 1,
@@ -20,7 +20,9 @@ export class BooksService {
     description: 'By the year 1992, humanity has colonized the Moon and psychic powers are common. The protagonist, Joe Chip, is a debt-ridden technician working for Runciter Associates, a "prudence organization" employing "inertials"—people with the ability to negate the powers of telepaths and "precogs"—to enforce the privacy of clients. The company is run by Glen Runciter, assisted by his deceased wife Ella who is kept in a state of "half-life", a form of cryonic suspension that allows the deceased limited consciousness and ability to communicate. While consulting with Ella, Runciter discovers that her consciousness is being invaded by another half-lifer named Jory Miller.'
   }];
 
-  constructor() { }
+  constructor() {
+    console.log("BooksService:constructor");
+  }
 
   getBooks(): Book[] {
     return this.books;
@@ -28,5 +30,9 @@ export class BooksService {
 
   save(book: Book): void {
     this.books = this.books.map(value => book.id === value.id ? book : value);
+  }
+
+  ngOnDestroy(): void {
+    console.log("BooksService:ngOnDestroy");
   }
 }
