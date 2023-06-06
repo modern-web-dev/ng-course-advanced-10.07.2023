@@ -51,10 +51,15 @@ export class BookDetailsComponent implements OnInit, OnChanges, AfterViewInit, O
     console.log('BookDetailsComponent:ngOnChanges');
     console.log(JSON.stringify(changes));
 
-    if(changes['book']) {
+    const bookChange = changes['book'];
+    if(bookChange) {
       // const obj = {...changes['book'].currentValue};
       // delete obj.id;
-      this.formGroup.setValue(changes['book'].currentValue);
+      if (bookChange.currentValue) {
+        this.formGroup.setValue(bookChange.currentValue);
+      } else {
+        this.formGroup.reset();
+      }
     }
   }
 

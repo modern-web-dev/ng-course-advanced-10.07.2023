@@ -4,21 +4,31 @@ import { BookDetailsComponent } from './book-details.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {MaterialModule} from "../../../shared/material.module";
 import {Book} from "../../model/book";
-import {SimpleChange} from "@angular/core";
+import {Component, SimpleChange} from "@angular/core";
+
+
+@Component({
+  selector: 'app-book-details-wrapper-test',
+  template: '<app-book-details [book]="selectedBook"></app-book-details>'
+})
+class BookDetailsWrapperTestComponent {
+
+  selectedBook: Book | null = null;
+}
 
 describe('BookDetailsComponent', () => {
-  let component: BookDetailsComponent;
-  let fixture: ComponentFixture<BookDetailsComponent>;
+  let component: BookDetailsWrapperTestComponent;
+  let fixture: ComponentFixture<BookDetailsWrapperTestComponent>;
   let nativeElement: any;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BookDetailsComponent ],
+      declarations: [ BookDetailsWrapperTestComponent, BookDetailsComponent ],
       imports: [ ReactiveFormsModule, MaterialModule ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BookDetailsComponent);
+    fixture = TestBed.createComponent(BookDetailsWrapperTestComponent);
     component = fixture.componentInstance;
     nativeElement = fixture.nativeElement;
     fixture.detectChanges();
@@ -55,8 +65,7 @@ describe('BookDetailsComponent', () => {
       description: 'some description'
     }
     // when
-    component.book = book;
-    component.ngOnChanges({ book: new SimpleChange(null, book, true)});
+    component.selectedBook = book;
     detectChanges();
     // then
     expect(titleElement().value).toEqual(book.title);
