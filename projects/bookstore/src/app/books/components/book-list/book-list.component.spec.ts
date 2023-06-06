@@ -110,6 +110,7 @@ describe('BookListComponent', () => {
 
     it('saves a modified book', () => {
       // given
+      spyOn(bookService, 'save').and.callThrough();
       const position = 1;
       clickBookAt(position);
       const bookBeforeChange = testedComponent.books[position];
@@ -122,13 +123,18 @@ describe('BookListComponent', () => {
       editField(authorElement(), newAuthor);
       editField(descriptionElement(), newDescription);
       clickSave();
+      // detectChanges();
       // then
+      expect(testedComponent.selectedBook).toBeFalsy();
+      // expect(editor()).toBeFalsy();
       const modifiedBook = testedComponent.books[position];
       expect(modifiedBook).toBeTruthy();
-      expect(modifiedBook.title).toEqual(newTitle);
-      expect(modifiedBook.author).toEqual(newAuthor);
-      expect(modifiedBook.description).toEqual(newDescription);
-      expect(modifiedBook.id).toEqual(bookBeforeChange.id);
+      expect(bookService.save).toHaveBeenCalledWith({
+        id: bookBeforeChange.id,
+        title: newTitle,
+        author: newAuthor,
+        description: newDescription
+      });
     });
   });
 
