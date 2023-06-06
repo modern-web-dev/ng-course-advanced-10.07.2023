@@ -4,7 +4,7 @@ import {ComponentFixture, TestBed} from "@angular/core/testing";
 import {MaterialModule} from "../../../shared/material.module";
 import {Book} from "../../model/book";
 import {BookDetailsComponent} from "../book-details/book-details.component";
-import {FormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 describe('BookListComponent', () => {
@@ -44,7 +44,7 @@ describe('BookListComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [BookListComponent, BookDetailsComponent],
-        imports: [MaterialModule, FormsModule],
+        imports: [MaterialModule, ReactiveFormsModule],
         providers: [{provide: BooksService, useValue: booksServiceMock}]
       }).compileComponents();
     });
@@ -89,7 +89,7 @@ describe('BookListComponent', () => {
       expect(bookList().length).toEqual(3);
     });
 
-    it('shows an editor once a book is clicked', async () => {
+    it('shows an editor once a book is clicked', () => {
       // given
       const position = 1;
       const book = booksServiceMock.getBooks()[position];
@@ -100,8 +100,6 @@ describe('BookListComponent', () => {
       expect(testedComponent.selectedBook).toBeTruthy();
       expect(testedComponent.selectedBook).toEqual(book);
       expect(editor()).toBeTruthy();
-
-      await fixture.whenStable();
 
       expect(titleElement().value).toEqual(book.title);
       expect(authorElement().value).toEqual(book.author);
@@ -139,7 +137,7 @@ describe('BookListComponent', () => {
       expect(booksServiceMock.getBooks()[position]).toEqual(bookBeforeChange);
     });
 
-    it('saves a modified book', async () => {
+    it('saves a modified book', () => {
       // given
       const position = 1;
       clickBookAt(position);
@@ -148,8 +146,6 @@ describe('BookListComponent', () => {
       const newTitle = 'Foo';
       const newAuthor = 'Bar';
       const newDescription = 'Modified description';
-
-      await fixture.whenStable();
 
       expect(titleElement().value).toEqual(bookBeforeChange.title);
       expect(authorElement().value).toEqual(bookBeforeChange.author);
@@ -160,10 +156,8 @@ describe('BookListComponent', () => {
       editField(authorElement(), newAuthor);
       editField(descriptionElement(), newDescription);
       clickSave();
-      // detectChanges();
       // then
       expect(testedComponent.selectedBook).toBeFalsy();
-      // expect(editor()).toBeFalsy();
       const modifiedBook = testedComponent.books[position];
       expect(modifiedBook).toBeTruthy();
       expect(booksServiceMock.save).toHaveBeenCalledWith({

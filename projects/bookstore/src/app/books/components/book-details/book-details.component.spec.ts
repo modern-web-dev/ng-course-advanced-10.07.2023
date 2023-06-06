@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BookDetailsComponent } from './book-details.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {MaterialModule} from "../../../shared/material.module";
 
 describe('BookDetailsComponent', () => {
   let component: BookDetailsComponent;
@@ -8,7 +10,8 @@ describe('BookDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BookDetailsComponent ]
+      declarations: [ BookDetailsComponent ],
+      imports: [ ReactiveFormsModule, MaterialModule ]
     })
     .compileComponents();
 
