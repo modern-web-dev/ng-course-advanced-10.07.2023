@@ -1,15 +1,13 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
-  ViewChild
+  SimpleChanges
 } from '@angular/core';
 import {Book} from "../../model/book";
 
@@ -26,15 +24,6 @@ export class BookDetailsComponent implements OnInit, OnChanges, AfterViewInit, O
   cancelClicked = new EventEmitter<void>();
   @Output()
   saveClicked = new EventEmitter<Book>();
-
-  @ViewChild("title")
-  titleElement!: ElementRef<HTMLInputElement>;
-
-  @ViewChild("author")
-  authorElement!: ElementRef<HTMLInputElement>;
-
-  @ViewChild("description")
-  descriptionElement!: ElementRef<HTMLTextAreaElement>;
 
   constructor() {
     console.log('BookDetailsComponent:constructor');
@@ -59,13 +48,7 @@ export class BookDetailsComponent implements OnInit, OnChanges, AfterViewInit, O
 
   save(): void {
     if (this.book) {
-      const book: Book = {
-        id: this.book.id,
-        title: this.titleElement.nativeElement.value,
-        author: this.authorElement.nativeElement.value,
-        description: this.descriptionElement.nativeElement.value
-      };
-      this.saveClicked.emit(book);
+      this.saveClicked.emit(this.book);
     }
   }
 }

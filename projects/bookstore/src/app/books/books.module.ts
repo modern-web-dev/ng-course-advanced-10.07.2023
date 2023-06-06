@@ -4,6 +4,7 @@ import {MaterialModule} from "../shared/material.module";
 import { BookListComponent } from './components/book-list/book-list.component';
 import {BooksService} from "./services/books.service";
 import { BookDetailsComponent } from './components/book-details/book-details.component';
+import {FormsModule} from "@angular/forms";
 
 
 
@@ -17,7 +18,8 @@ import { BookDetailsComponent } from './components/book-details/book-details.com
   ],
   imports: [
     MaterialModule,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   providers: [
     BooksService

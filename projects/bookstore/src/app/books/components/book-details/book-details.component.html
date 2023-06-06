@@ -1,15 +1,15 @@
 <section id="editor" *ngIf="book">
   <mat-form-field>
     <mat-label>Title</mat-label>
-    <input #title id="title" matInput type="text" [value]="book.title">
+    <input #title id="title" matInput type="text" [ngModel]="book.title" (ngModelChange)="book.title = $event">
   </mat-form-field>
   <mat-form-field>
     <mat-label>Author</mat-label>
-    <input #author id="author" matInput type="text" [value]="book.author">
+    <input #author id="author" matInput type="text" [(ngModel)]="book.author">
   </mat-form-field>
   <mat-form-field>
     <mat-label>Description</mat-label>
-    <textarea #description id="description" class="v-xx-large" matInput type="text">{{ book.description }}</textarea>
+    <textarea #description id="description" class="v-xx-large" matInput type="text" [(ngModel)]="book.description"></textarea>
   </mat-form-field>
   <div class="d-flex gap-2 flex-row mt-2">
     <button mat-stroked-button color="primary" (click)="cancelClicked.emit()" id="cancel">Cancel</button>
