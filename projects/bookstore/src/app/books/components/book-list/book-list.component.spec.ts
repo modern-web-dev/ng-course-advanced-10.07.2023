@@ -3,6 +3,7 @@ import {BooksService} from "../../services/books.service";
 import {ComponentFixture, TestBed} from "@angular/core/testing";
 import {MaterialModule} from "../../../shared/material.module";
 import {Book} from "../../model/book";
+import {BookDetailsComponent} from "../book-details/book-details.component";
 
 
 describe('BookListComponent', () => {
@@ -41,7 +42,7 @@ describe('BookListComponent', () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [BookListComponent],
+        declarations: [BookListComponent, BookDetailsComponent],
         imports: [MaterialModule],
         providers: [{ provide: BooksService, useValue: booksServiceMock }]
       }).compileComponents();
