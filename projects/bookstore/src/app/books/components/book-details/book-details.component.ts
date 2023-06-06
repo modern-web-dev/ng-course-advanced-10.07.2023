@@ -10,7 +10,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import {Book} from "../../model/book";
-import {FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-book-details',
@@ -58,7 +58,7 @@ export class BookDetailsComponent implements OnInit, OnChanges, AfterViewInit, O
     console.log(JSON.stringify(changes));
 
     const bookChange = changes['book'];
-    if(bookChange) {
+    if (bookChange) {
       // const obj = {...changes['book'].currentValue};
       // delete obj.id;
       if (bookChange.currentValue) {
@@ -77,27 +77,5 @@ export class BookDetailsComponent implements OnInit, OnChanges, AfterViewInit, O
     if (this.book) {
       this.saveClicked.emit(this.formGroup.value);
     }
-  }
-
-  formatErrors(errors: ValidationErrors | null): string {
-    console.log("format errors run");
-    if (errors) {
-      const errorKeys = Object.keys(errors);
-      return errorKeys.map(errorKey => this.errorToMessage(errorKey, errors[errorKey])).join(', ');
-    } else {
-      return '';
-    }
-  }
-
-  errorToMessage(errorKey: string, errorData: any): string {
-    switch(errorKey) {
-      case 'required':
-        return 'Value for this field is required';
-      case 'minlength':
-        return `Value for this field is ${errorData.actualLength} characters long, which is less than required ${errorData.requiredLength}`;
-      case 'maxlength':
-        return `Value for this field is ${errorData.actualLength} characters long, which is more than required ${errorData.requiredLength}`;
-    }
-    return '';
   }
 }

@@ -5,6 +5,7 @@ import {BookListComponent} from './components/book-list/book-list.component';
 import {BooksService} from "./services/books.service";
 import {BookDetailsComponent} from './components/book-details/book-details.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {ReactiveFormsModule} from "@angular/forms";
   imports: [
     MaterialModule,
     CommonModule,
+    SharedModule,
     ReactiveFormsModule
   ],
   providers: [

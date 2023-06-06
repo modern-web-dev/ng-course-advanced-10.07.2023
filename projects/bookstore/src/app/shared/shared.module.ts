@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ErrorMsgPipe} from "./pipes/error-msg.pipe";
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ]
+  declarations: [ErrorMsgPipe],
+  exports: [ErrorMsgPipe],
+  imports: [CommonModule]
 })
-export class SharedModule { }
+export class SharedModule {
+}
