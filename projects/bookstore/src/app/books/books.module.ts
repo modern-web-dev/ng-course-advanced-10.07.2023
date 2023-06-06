@@ -1,12 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {MaterialModule} from "../shared/material.module";
-import { BookListComponent } from './components/book-list/book-list.component';
+import {BookListComponent} from './components/book-list/book-list.component';
 import {BooksService} from "./services/books.service";
-import { BookDetailsComponent } from './components/book-details/book-details.component';
-import {FormsModule} from "@angular/forms";
-
-
+import {BookDetailsComponent} from './components/book-details/book-details.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -19,10 +17,11 @@ import {FormsModule} from "@angular/forms";
   imports: [
     MaterialModule,
     CommonModule,
-    FormsModule
+    ReactiveFormsModule
   ],
   providers: [
     BooksService
   ]
 })
-export class BooksModule { }
+export class BooksModule {
+}
