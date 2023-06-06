@@ -1,5 +1,8 @@
 <article class="m-4">
   <h1>Hello world, Angular Training class</h1>
+  <nav class="mb-4 navigation">
+    Navigate: <a [routerLink]="['/']">Home</a> <a [routerLink]="['books']">Books</a>
+  </nav>
 
-  <app-book-list></app-book-list>
+  <router-outlet></router-outlet>
 </article>
