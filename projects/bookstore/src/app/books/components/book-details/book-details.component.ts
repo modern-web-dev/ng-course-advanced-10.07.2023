@@ -10,7 +10,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import {Book} from "../../model/book";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-book-details',
@@ -28,14 +28,20 @@ export class BookDetailsComponent implements OnInit, OnChanges, AfterViewInit, O
   saveClicked = new EventEmitter<Book>();
 
   formGroup: FormGroup;
+  titleFormControl: FormControl;
+  authorFormControl: FormControl;
+  descriptionFormControl: FormControl;
 
   constructor() {
     console.log('BookDetailsComponent:constructor');
+    this.titleFormControl = new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]);
+    this.authorFormControl = new FormControl('', [Validators.required]);
+    this.descriptionFormControl = new FormControl('', [Validators.maxLength(500)]);
     this.formGroup = new FormGroup({
       id: new FormControl(),
-      title: new FormControl(),
-      author: new FormControl(),
-      description: new FormControl()
+      title: this.titleFormControl,
+      author: this.authorFormControl,
+      description: this.descriptionFormControl
     });
   }
 
@@ -71,5 +77,27 @@ export class BookDetailsComponent implements OnInit, OnChanges, AfterViewInit, O
     if (this.book) {
       this.saveClicked.emit(this.formGroup.value);
     }
+  }
+
+  formatErrors(errors: ValidationErrors | null): string {
+    console.log("format errors run");
+    if (errors) {
+      const errorKeys = Object.keys(errors);
+      return errorKeys.map(errorKey => this.errorToMessage(errorKey, errors[errorKey])).join(', ');
+    } else {
+      return '';
+    }
+  }
+
+  errorToMessage(errorKey: string, errorData: any): string {
+    switch(errorKey) {
+      case 'required':
+        return 'Value for this field is required';
+      case 'minlength':
+        return `Value for this field is ${errorData.actualLength} characters long, which is less than required ${errorData.requiredLength}`;
+      case 'maxlength':
+        return `Value for this field is ${errorData.actualLength} characters long, which is more than required ${errorData.requiredLength}`;
+    }
+    return '';
   }
 }
