@@ -5,6 +5,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MaterialModule} from "../../../shared/material.module";
 import {Book} from "../../model/book";
 import {Component, SimpleChange} from "@angular/core";
+import {ErrorMsgPipe} from "../../../shared/pipes/error-msg.pipe";
 
 
 @Component({
@@ -23,7 +24,7 @@ describe('BookDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BookDetailsWrapperTestComponent, BookDetailsComponent ],
+      declarations: [ BookDetailsWrapperTestComponent, BookDetailsComponent, ErrorMsgPipe ],
       imports: [ ReactiveFormsModule, MaterialModule ]
     })
     .compileComponents();

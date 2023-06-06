@@ -5,6 +5,8 @@ import {MaterialModule} from "../../../shared/material.module";
 import {Book} from "../../model/book";
 import {BookDetailsComponent} from "../book-details/book-details.component";
 import {ReactiveFormsModule} from "@angular/forms";
+import {SharedModule} from "../../../shared/shared.module";
+import {ErrorMsgPipe} from "../../../shared/pipes/error-msg.pipe";
 
 
 describe('BookListComponent', () => {
@@ -43,7 +45,7 @@ describe('BookListComponent', () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [BookListComponent, BookDetailsComponent],
+        declarations: [BookListComponent, BookDetailsComponent, ErrorMsgPipe],
         imports: [MaterialModule, ReactiveFormsModule],
         providers: [{provide: BooksService, useValue: booksServiceMock}]
       }).compileComponents();
@@ -120,7 +122,7 @@ describe('BookListComponent', () => {
       expect(testedComponent.selectedBook).toBeNull();
     });
 
-    it('it attempts to save unchanged selected book and close editor once save is clicked', () => {
+    it('save button for unchanged book is disabled', () => {
       // given
       const position = 1;
       clickBookAt(position);
@@ -129,12 +131,8 @@ describe('BookListComponent', () => {
       expect(editor()).toBeTruthy();
       expect(testedComponent.selectedBook).toBeTruthy();
       // when
-      clickSave();
-      detectChanges();
       // then
-      expect(editor()).toBeFalsy();
-      expect(testedComponent.selectedBook).toBeNull();
-      expect(booksServiceMock.getBooks()[position]).toEqual(bookBeforeChange);
+      expect(saveButton().disabled).toBeTruthy();
     });
 
     it('saves a modified book', () => {
@@ -155,6 +153,7 @@ describe('BookListComponent', () => {
       editField(titleElement(), newTitle);
       editField(authorElement(), newAuthor);
       editField(descriptionElement(), newDescription);
+      detectChanges();
       clickSave();
       // then
       expect(testedComponent.selectedBook).toBeFalsy();
