@@ -24,6 +24,8 @@
     <div class="d-flex gap-2 flex-row mt-2">
       <button mat-stroked-button color="primary" (click)="cancelClicked.emit()" id="cancel">Cancel</button>
       <button mat-flat-button color="primary" (click)="save()" id="save" [disabled]="formGroup.invalid || formGroup.pristine">Save</button>
+      <button mat-stroked-button color="primary" (click)="formGroup.enable()">Enable</button>
+      <button mat-stroked-button color="primary" (click)="formGroup.disable()">Disable</button>
     </div>
   </form>
 </section>
