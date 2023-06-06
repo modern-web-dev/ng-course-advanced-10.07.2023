@@ -20,6 +20,9 @@ export class BookDetailsComponent implements OnInit, OnChanges, AfterViewInit, O
 
   @Input()
   book: Book | null = null;
+
+  editedBook: Book | null = null;
+
   @Output()
   cancelClicked = new EventEmitter<void>();
   @Output()
@@ -40,6 +43,10 @@ export class BookDetailsComponent implements OnInit, OnChanges, AfterViewInit, O
   ngOnChanges(changes: SimpleChanges): void {
     console.log('BookDetailsComponent:ngOnChanges');
     console.log(JSON.stringify(changes));
+
+    if(changes['book']) {
+      this.editedBook = {...changes['book'].currentValue};
+    }
   }
 
   ngAfterViewInit() {
@@ -47,8 +54,8 @@ export class BookDetailsComponent implements OnInit, OnChanges, AfterViewInit, O
   }
 
   save(): void {
-    if (this.book) {
-      this.saveClicked.emit(this.book);
+    if (this.editedBook) {
+      this.saveClicked.emit(this.editedBook);
     }
   }
 }
