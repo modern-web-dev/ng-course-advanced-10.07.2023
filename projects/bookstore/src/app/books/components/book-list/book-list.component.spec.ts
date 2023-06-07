@@ -139,7 +139,7 @@ describe('BookListComponent', () => {
       // given
       const position = 1;
       clickBookAt(position);
-      const bookBeforeChange = testedComponent.books[position];
+      const bookBeforeChange = testedComponent.books$[position];
       detectChanges();
       const newTitle = 'Foo';
       const newAuthor = 'Bar';
@@ -157,7 +157,7 @@ describe('BookListComponent', () => {
       clickSave();
       // then
       expect(testedComponent.selectedBook).toBeFalsy();
-      const modifiedBook = testedComponent.books[position];
+      const modifiedBook = testedComponent.books$[position];
       expect(modifiedBook).toBeTruthy();
       expect(booksServiceMock.save).toHaveBeenCalledWith({
         id: bookBeforeChange.id,
@@ -179,11 +179,11 @@ describe('BookListComponent', () => {
     });
 
     it('has three books on the list', () => {
-      expect(testedComponent.books).toHaveSize(3);
+      expect(testedComponent.books$).toHaveSize(3);
     });
 
     it('has books identical to the ones in the service', () => {
-      expect(testedComponent.books).toEqual(booksServiceMock.getBooks());
+      expect(testedComponent.books$).toEqual(booksServiceMock.getBooks());
     })
   });
 })
