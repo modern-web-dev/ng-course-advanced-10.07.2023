@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { BookDetailsComponent } from './book-details.component';
+import {BookDetailsComponent} from './book-details.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {MaterialModule} from "../../../shared/material.module";
 import {Book} from "../../model/book";
-import {Component, SimpleChange} from "@angular/core";
+import {Component} from "@angular/core";
 import {ErrorMsgPipe} from "../../../shared/pipes/error-msg.pipe";
 
 
@@ -24,10 +24,10 @@ describe('BookDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BookDetailsWrapperTestComponent, BookDetailsComponent, ErrorMsgPipe ],
-      imports: [ ReactiveFormsModule, MaterialModule ]
+      declarations: [BookDetailsWrapperTestComponent, BookDetailsComponent, ErrorMsgPipe],
+      imports: [ReactiveFormsModule, MaterialModule]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(BookDetailsWrapperTestComponent);
     component = fixture.componentInstance;
