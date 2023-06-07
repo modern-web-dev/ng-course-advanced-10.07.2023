@@ -9,6 +9,8 @@ import {SharedModule} from "../shared/shared.module";
 import {HttpClientModule} from "@angular/common/http";
 import {StoreModule} from "@ngrx/store";
 import {BOOKS_FEATURE, booksStateReducer} from "./store/books.reducer";
+import {EffectsModule} from "@ngrx/effects";
+import {BooksEffects} from "./store/books.effects";
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import {BOOKS_FEATURE, booksStateReducer} from "./store/books.reducer";
     SharedModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forFeature(BOOKS_FEATURE, booksStateReducer)
+    StoreModule.forFeature(BOOKS_FEATURE, booksStateReducer),
+    EffectsModule.forFeature([BooksEffects])
   ],
   providers: [
     BooksService

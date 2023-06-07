@@ -6,6 +6,8 @@ import {AppComponent} from './app.component';
 import {GidcRootModule} from "@gidc/pali/root-module";
 import {BooksModule} from "./books/books.module";
 import {StoreModule} from "@ngrx/store";
+import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import {EffectsModule} from "@ngrx/effects";
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import {StoreModule} from "@ngrx/store";
     AppRoutingModule,
     BooksModule,
     StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument(),
     GidcRootModule
   ],
   providers: [],

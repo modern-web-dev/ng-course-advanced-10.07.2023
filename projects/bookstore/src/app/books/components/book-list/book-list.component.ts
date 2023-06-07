@@ -5,7 +5,7 @@ import {Observable, Subject, takeUntil} from "rxjs";
 import {select, Store} from "@ngrx/store";
 import {BooksState} from "../../store/books.reducer";
 import {BooksSelector} from "../../store/books.selectors";
-import {deselectBookAction, selectBookAction, setBooksAction} from "../../store/books.actions";
+import {deselectBookAction, loadBooksAction, selectBookAction} from "../../store/books.actions";
 
 @Component({
   selector: 'app-book-list',
@@ -25,12 +25,7 @@ export class BookListComponent implements OnChanges, OnInit, AfterViewInit, OnDe
 
     this.books$ = this.store.pipe(select(BooksSelector.getBooks));
     this.selectedBook$ = this.store.pipe(select(BooksSelector.getSelectedBook));
-
-    this.booksService.getBooks()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(books => {
-        this.store.dispatch(setBooksAction({books}));
-      })
+    this.store.dispatch(loadBooksAction());
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -57,11 +52,7 @@ export class BookListComponent implements OnChanges, OnInit, AfterViewInit, OnDe
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(_ => {
         this.deselectBook();
-        this.booksService.getBooks()
-          .pipe(takeUntil(this.unsubscribe$))
-          .subscribe(books => {
-            this.store.dispatch(setBooksAction({books}));
-          });
+        this.store.dispatch(loadBooksAction())
       });
   }
 
