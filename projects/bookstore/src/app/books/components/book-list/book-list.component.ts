@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {BooksService} from "../../services/books.service";
 import {Book} from "../../model/book";
-import {Observable} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-book-list',
@@ -14,6 +14,8 @@ export class BookListComponent implements OnChanges, OnInit, AfterViewInit, OnDe
   selectedBook: Book | null = null;
 
   books$: Observable<Book[]>;
+
+  private readonly unsubscribe$ = new Subject<void>();
 
   constructor(private readonly booksService: BooksService) {
     console.log('BookList:constructor');
@@ -35,15 +37,19 @@ export class BookListComponent implements OnChanges, OnInit, AfterViewInit, OnDe
 
   ngOnDestroy(): void {
     console.log('BookList:ngOnDestroy');
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   save(book: Book): void {
     if (this.selectedBook) {
 
-      this.booksService.save(book).subscribe(_ => {
-        this.selectedBook = null;
-        this.books$ = this.booksService.getBooks();
-      });
+      this.booksService.save(book)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(_ => {
+          this.selectedBook = null;
+          this.books$ = this.booksService.getBooks();
+        });
     }
   }
 }
