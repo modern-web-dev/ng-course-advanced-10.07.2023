@@ -11,6 +11,7 @@ import {StoreModule} from "@ngrx/store";
 import {BOOKS_FEATURE, booksStateReducer} from "./store/books.reducer";
 import {EffectsModule} from "@ngrx/effects";
 import {BooksEffects} from "./store/books.effects";
+import {WidgetsModule} from "../../../../widgets/src/lib/widgets.module";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {BooksEffects} from "./store/books.effects";
     SharedModule,
     ReactiveFormsModule,
     HttpClientModule,
+    WidgetsModule,
     StoreModule.forFeature(BOOKS_FEATURE, booksStateReducer),
     EffectsModule.forFeature([BooksEffects])
   ],

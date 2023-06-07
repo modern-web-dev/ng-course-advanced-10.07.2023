@@ -5,7 +5,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MaterialModule} from "../../../shared/material.module";
 import {Book} from "../../model/book";
 import {Component} from "@angular/core";
-import {ErrorMsgPipe} from "../../../shared/pipes/error-msg.pipe";
+import {ErrorMsgPipe} from "../../../../../../widgets/src/lib/pipes/error-msg.pipe";
 
 
 @Component({

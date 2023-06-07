@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 import {ValidationErrors} from "@angular/forms";
 
 @Pipe({
@@ -18,7 +18,7 @@ export class ErrorMsgPipe implements PipeTransform {
   }
 
   private errorToMessage(fieldName: string, errorKey: string, errorData: any): string {
-    switch(errorKey) {
+    switch (errorKey) {
       case 'required':
         return `Value for ${fieldName} is required`;
       case 'minlength':

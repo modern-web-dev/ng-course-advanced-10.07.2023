@@ -4,7 +4,7 @@ import {ComponentFixture, TestBed} from "@angular/core/testing";
 import {MaterialModule} from "../../../shared/material.module";
 import {BookDetailsComponent} from "../book-details/book-details.component";
 import {ReactiveFormsModule} from "@angular/forms";
-import {ErrorMsgPipe} from "../../../shared/pipes/error-msg.pipe";
+import {ErrorMsgPipe} from "../../../../../../widgets/src/lib/pipes/error-msg.pipe";
 import {books} from "../../services/test-books";
 import {of} from "rxjs";
 import {MockStore, provideMockStore} from "@ngrx/store/testing";
