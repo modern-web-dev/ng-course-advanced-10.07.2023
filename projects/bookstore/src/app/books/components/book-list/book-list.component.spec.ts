@@ -82,8 +82,8 @@ describe('BookListComponent', () => {
       clickBookAt(position);
       detectChanges();
       // then
-      expect(testedComponent.selectedBook).toBeTruthy();
-      expect(testedComponent.selectedBook).toEqual(book);
+      expect(testedComponent.selectedBook$).toBeTruthy();
+      expect(testedComponent.selectedBook$).toEqual(book);
       expect(editor()).toBeTruthy();
 
       expect(titleElement().value).toEqual(book.title);
@@ -96,13 +96,13 @@ describe('BookListComponent', () => {
       clickBookAt(1);
       detectChanges();
       expect(editor()).toBeTruthy();
-      expect(testedComponent.selectedBook).toBeTruthy();
+      expect(testedComponent.selectedBook$).toBeTruthy();
       // when
       clickCancel();
       detectChanges();
       // then
       expect(editor()).toBeFalsy();
-      expect(testedComponent.selectedBook).toBeNull();
+      expect(testedComponent.selectedBook$).toBeNull();
     });
 
     it('save button for unchanged book is disabled', () => {
@@ -112,7 +112,7 @@ describe('BookListComponent', () => {
       const bookBeforeChange = booksServiceMock.getBooks()[position];
       detectChanges();
       expect(editor()).toBeTruthy();
-      expect(testedComponent.selectedBook).toBeTruthy();
+      expect(testedComponent.selectedBook$).toBeTruthy();
       // when
       // then
       expect(saveButton().disabled).toBeTruthy();
@@ -139,7 +139,7 @@ describe('BookListComponent', () => {
       detectChanges();
       clickSave();
       // then
-      expect(testedComponent.selectedBook).toBeFalsy();
+      expect(testedComponent.selectedBook$).toBeFalsy();
       expect(booksServiceMock.save).toHaveBeenCalledWith({
         id: bookBeforeChange.id,
         title: newTitle,
@@ -156,7 +156,7 @@ describe('BookListComponent', () => {
     });
 
     it('has no selected book initially', () => {
-      expect(testedComponent.selectedBook).toBeNull();
+      expect(testedComponent.selectedBook$).toBeNull();
     });
 
     it('has three books on the list', (done) => {

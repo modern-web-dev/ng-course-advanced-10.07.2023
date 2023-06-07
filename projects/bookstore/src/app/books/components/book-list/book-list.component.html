@@ -1,16 +1,16 @@
 <ul>
-  <li *ngFor="let book of books$ | async" (click)="selectedBook = book"
-      [ngClass]="{ selected: book === selectedBook }"
+  <li *ngFor="let book of books$ | async" (click)="selectBook(book)"
+      [ngClass]="{ selected: book === (selectedBook$ | async) }"
       class="clickable">
     {{ book.title }}, <em>{{ book.author }}</em>
   </li>
 </ul>
 
 <app-book-details
-  *ngIf="selectedBook"
-  [book]="selectedBook"
+  *ngIf="selectedBook$ | async"
+  [book]="selectedBook$ | async"
   (saveClicked)="save($event)"
-  (cancelClicked)="selectedBook = null"
+  (cancelClicked)="deselectBook()"
 >
 
 </app-book-details>

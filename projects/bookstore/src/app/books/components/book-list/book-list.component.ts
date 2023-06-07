@@ -2,6 +2,10 @@ import {AfterViewInit, Component, OnChanges, OnDestroy, OnInit, SimpleChanges} f
 import {BooksService} from "../../services/books.service";
 import {Book} from "../../model/book";
 import {Observable, Subject, takeUntil} from "rxjs";
+import {select, Store} from "@ngrx/store";
+import {BooksState} from "../../store/books.reducer";
+import {BooksSelector} from "../../store/books.selectors";
+import {deselectBookAction, selectBookAction, setBooksAction} from "../../store/books.actions";
 
 @Component({
   selector: 'app-book-list',
@@ -11,15 +15,22 @@ import {Observable, Subject, takeUntil} from "rxjs";
 })
 export class BookListComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
-  selectedBook: Book | null = null;
-
-  books$: Observable<Book[]>;
+  readonly selectedBook$: Observable<Book | null>;
+  readonly books$: Observable<Book[]>;
 
   private readonly unsubscribe$ = new Subject<void>();
 
-  constructor(private readonly booksService: BooksService) {
+  constructor(private readonly booksService: BooksService, private readonly store: Store<BooksState>) {
     console.log('BookList:constructor');
-    this.books$ = this.booksService.getBooks();
+
+    this.books$ = this.store.pipe(select(BooksSelector.getBooks));
+    this.selectedBook$ = this.store.pipe(select(BooksSelector.getSelectedBook));
+
+    this.booksService.getBooks()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(books => {
+        this.store.dispatch(setBooksAction({books}));
+      })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -42,14 +53,23 @@ export class BookListComponent implements OnChanges, OnInit, AfterViewInit, OnDe
   }
 
   save(book: Book): void {
-    if (this.selectedBook) {
+    this.booksService.save(book)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(_ => {
+        this.deselectBook();
+        this.booksService.getBooks()
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe(books => {
+            this.store.dispatch(setBooksAction({books}));
+          });
+      });
+  }
 
-      this.booksService.save(book)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(_ => {
-          this.selectedBook = null;
-          this.books$ = this.booksService.getBooks();
-        });
-    }
+  deselectBook(): void {
+    this.store.dispatch(deselectBookAction());
+  }
+
+  selectBook(book: Book): void {
+    this.store.dispatch(selectBookAction({book}));
   }
 }
