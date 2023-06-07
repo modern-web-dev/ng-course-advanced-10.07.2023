@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
-import {loadBooksAction, setBooksAction} from "./books.actions";
+import {loadBooksAction, saveBookAction, setBooksAction} from "./books.actions";
 import {map, mergeMap} from "rxjs";
 import {BooksService} from "../services/books.service";
 
@@ -16,4 +16,11 @@ export class BooksEffects {
       .pipe(
         map(books => setBooksAction({books}))))
   ));
+
+  readonly saveBook$ = createEffect(() => this.actions$.pipe(
+    ofType(saveBookAction),
+    mergeMap(action => this.bookService.save(action.book)
+      .pipe(
+        map(_ => loadBooksAction()))))
+  );
 }
