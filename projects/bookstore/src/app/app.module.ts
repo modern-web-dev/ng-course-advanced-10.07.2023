@@ -5,6 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {GidcRootModule} from "@gidc/pali/root-module";
 import {BooksModule} from "./books/books.module";
+import {StoreModule} from "@ngrx/store";
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import {BooksModule} from "./books/books.module";
     BrowserModule,
     AppRoutingModule,
     BooksModule,
+    StoreModule.forRoot({}),
     GidcRootModule
   ],
   providers: [],
