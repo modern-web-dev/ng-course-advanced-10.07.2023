@@ -1,2 +1,2 @@
 <h3>My input</h3>
-<input #input type="text" [ngModel]="value" (input)="valueChanged()">
+<input #input type="text" (input)="valueChanged()" (blur)="onBlur()" [ngClass]="{ error: formControl?.invalid }">

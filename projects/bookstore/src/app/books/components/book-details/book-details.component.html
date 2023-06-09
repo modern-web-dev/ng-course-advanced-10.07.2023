@@ -7,13 +7,16 @@
       <input id="title" matInput type="text" [formControl]="titleFormControl">
       <mat-error>{{ titleFormControl.errors | errorMsg : 'title' }}</mat-error>
     </mat-form-field>
-    <mat-form-field class="gidc-form-with-hint"
-                    [class.gidc-form-valid]="authorFormControl.valid"
-                    [class.gidc-form-invalid]="authorFormControl.invalid">
-      <mat-label>Author</mat-label>
-      <input id="author" matInput type="text" formControlName="author">
-      <mat-error>{{ authorFormControl.errors | errorMsg : 'author' }}</mat-error>
-    </mat-form-field>
+<!--    <mat-form-field class="gidc-form-with-hint"-->
+<!--                    [class.gidc-form-valid]="authorFormControl.valid"-->
+<!--                    [class.gidc-form-invalid]="authorFormControl.invalid">-->
+<!--      <mat-label>Author</mat-label>-->
+<!--      <input id="author" matInput type="text" formControlName="author">-->
+<!--      <mat-error>{{ authorFormControl.errors | errorMsg : 'author' }}</mat-error>-->
+<!--    </mat-form-field>-->
+    <div>
+      <lib-my-input formControlName="author"></lib-my-input>
+    </div>
     <mat-form-field class="gidc-form-with-hint"
                     [class.gidc-form-valid]="descriptionFormControl.valid"
                     [class.gidc-form-invalid]="descriptionFormControl.invalid">
@@ -21,9 +24,6 @@
       <textarea id="description" class="v-xx-large" matInput type="text" formControlName="description"></textarea>
       <mat-error>{{ descriptionFormControl.errors | errorMsg : 'description' }}</mat-error>
     </mat-form-field>
-    <div>
-      <lib-my-input formControlName="id"></lib-my-input>
-    </div>
     <div class="d-flex gap-2 flex-row mt-2">
       <button mat-stroked-button color="primary" (click)="cancelClicked.emit()" id="cancel">Cancel</button>
       <button mat-flat-button color="primary" (click)="save()" id="save" [disabled]="formGroup.invalid || formGroup.pristine">Save</button>
