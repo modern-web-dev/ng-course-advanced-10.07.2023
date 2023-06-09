@@ -4,7 +4,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {GidcRootModule} from "@gidc/pali/root-module";
-import {BooksModule} from "./books/books.module";
 import {StoreModule} from "@ngrx/store";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {EffectsModule} from "@ngrx/effects";
@@ -16,7 +15,6 @@ import {EffectsModule} from "@ngrx/effects";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BooksModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument(),

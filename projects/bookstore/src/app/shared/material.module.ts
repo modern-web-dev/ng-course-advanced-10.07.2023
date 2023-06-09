@@ -10,14 +10,12 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
   exports: [
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule,
-    BrowserAnimationsModule
+    MatButtonModule
   ],
   imports: [
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    BrowserAnimationsModule,
     CommonModule,
   ]
 })
