@@ -23,8 +23,8 @@
       "dom"
     ],
     "paths": {
-      "widgets": [
-        "projects/widgets/src/lib"
+      "@widgets/*": [
+        "projects/widgets/src/public-api/*"
       ]
     }
   },

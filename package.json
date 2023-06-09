@@ -5,9 +5,13 @@
     "ng": "ng",
     "start": "ng serve",
     "start:backend": "json-server backend/database.json --routes backend/routes.json",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "build": "ng build bookstore",
+    "watch": "ng build bookstore --watch --configuration development",
+    "test": "ng test bookstore",
+    "widgets:build": "ng build widgets",
+    "widgets:watch": "ng build widgets --watch --configuration development",
+    "widgets:test": "ng test widgets",
+    "widgets:publish": "ng build widgets --configuration production && cd dist/widgets && npm publish --registry http://repository.int.kn/repository/seaquote"
   },
   "private": true,
   "dependencies": {
