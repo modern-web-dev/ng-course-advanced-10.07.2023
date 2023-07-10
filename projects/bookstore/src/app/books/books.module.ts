@@ -1,8 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { BookListComponent } from './components/book-list/book-list.component';
-import {BooksService} from "./services/books.service";
-
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {BookListComponent} from './components/book-list/book-list.component';
+import {MaterialModule} from "../shared/material.module";
 
 
 @NgModule({
@@ -13,7 +12,9 @@ import {BooksService} from "./services/books.service";
     BookListComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MaterialModule
   ]
 })
-export class BooksModule { }
+export class BooksModule {
+}

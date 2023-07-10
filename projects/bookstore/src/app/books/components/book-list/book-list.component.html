@@ -1,5 +1,27 @@
 <ul>
-  <li *ngFor="let book of books">
+  <li
+      *ngFor="let book of books"
+      (click)="selectBook(book)"
+      [ngClass]="{ selected: book === selectedBook }">
     {{ book.title }}, <em>{{ book.author }}</em>
   </li>
 </ul>
+
+<section class="gidc-form-label-left gidc-spacing-v" *ngIf="selectedBook !== null">
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <input matInput type="text" [value]="selectedBook.title">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Author</mat-label>
+    <input matInput type="text" [value]="selectedBook.author">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <textarea matInput type="text" >{{ selectedBook.description }}</textarea>
+  </mat-form-field>
+</section>
+
+<!--<button mat-stroked-button color="warn" (click)="reset()">Reset</button>-->

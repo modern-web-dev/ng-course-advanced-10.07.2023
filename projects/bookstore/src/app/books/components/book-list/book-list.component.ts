@@ -12,8 +12,17 @@ export class BookListComponent {
 
   books: Book[] = [];
 
+  selectedBook: Book | null = null;
+
   constructor(private booksService: BooksService) {
     this.books = booksService.getBooks();
   }
 
+  selectBook(book: Book) {
+    if (this.selectedBook === book) {
+      this.selectedBook = null;
+    } else {
+      this.selectedBook = book;
+    }
+  }
 }
