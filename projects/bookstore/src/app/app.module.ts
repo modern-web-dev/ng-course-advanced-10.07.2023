@@ -9,6 +9,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {GidcRootModule} from "@gidc/pali/root-module";
 import {MaterialModule} from "./shared/material.module";
+import {BooksModule} from "./books/books.module";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {MaterialModule} from "./shared/material.module";
     BrowserAnimationsModule,
     AppRoutingModule,
     MaterialModule,
+    BooksModule,
     GidcRootModule
   ],
   providers: [],

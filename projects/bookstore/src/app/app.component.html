@@ -1,16 +1,18 @@
 <article class="m-3">
   <h1>Angular Training App July 2023</h1>
 
-  <section class="gidc-form-label-left gidc-spacing-v">
+  <app-book-list></app-book-list>
 
-    <mat-form-field>
-      <mat-label>Title</mat-label>
-      <input matInput #editor type="text" [value]="title" (input)="updateValue()">
-    </mat-form-field>
-  </section>
+<!--  <section class="gidc-form-label-left gidc-spacing-v">-->
 
-  <button mat-stroked-button color="warn" (click)="reset()">Reset</button>
+<!--    <mat-form-field>-->
+<!--      <mat-label>Title</mat-label>-->
+<!--      <input matInput #editor type="text" [value]="title" (input)="updateValue()">-->
+<!--    </mat-form-field>-->
+<!--  </section>-->
 
-  <p>{{ title }}</p>
+<!--  <button mat-stroked-button color="warn" (click)="reset()">Reset</button>-->
+
+<!--  <p>{{ title }}</p>-->
 
 </article>
