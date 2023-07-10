@@ -8,6 +8,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {GidcRootModule} from "@gidc/pali/root-module";
+import {MaterialModule} from "./shared/material.module";
 
 @NgModule({
   declarations: [
@@ -17,9 +18,7 @@ import {GidcRootModule} from "@gidc/pali/root-module";
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
+    MaterialModule,
     GidcRootModule
   ],
   providers: [],
