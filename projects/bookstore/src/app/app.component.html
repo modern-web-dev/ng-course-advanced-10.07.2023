@@ -1,5 +1,16 @@
 <article class="m-3">
   <h1>Angular Training App July 2023</h1>
 
-  <router-outlet></router-outlet>
+  <section class="gidc-form-label-left gidc-spacing-v">
+
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput #editor type="text" [value]="title" (input)="title = editor.value">
+    </mat-form-field>
+  </section>
+
+  <button mat-stroked-button color="warn" (click)="title = 'bookstore'">Reset</button>
+
+  <p>{{ title }}</p>
+
 </article>
