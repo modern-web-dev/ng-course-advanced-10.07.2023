@@ -10,7 +10,7 @@ import {Book} from "../../model/book";
 })
 export class BookListComponent {
 
-  books: Book[] = [];
+  books: Book[];
 
   selectedBook: Book | null = null;
 

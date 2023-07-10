@@ -1,25 +1,31 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-
-import {BookListComponent} from './book-list.component';
+import {BookListComponent} from "./book-list.component";
 import {BooksService} from "../../services/books.service";
 
+
 describe('BookListComponent', () => {
-  let component: BookListComponent;
-  let fixture: ComponentFixture<BookListComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [BookListComponent],
-      providers: [BooksService]
-    })
-      .compileComponents();
+  let bookService: BooksService;
+  let testedComponent: BookListComponent;
 
-    fixture = TestBed.createComponent(BookListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  describe("[class]", () => {
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    beforeEach(() => {
+      bookService = new BooksService();
+      testedComponent = new BookListComponent(bookService);
+    });
+
+    it('initially no book is selected', () => {
+      expect(testedComponent.selectedBook).toBeNull();
+    });
+
+    it('has three books on the list', () => {
+      expect(testedComponent.books).toHaveSize(3);
+    });
+
+    it('can select a book', () => {
+      const bookToBeSelected = testedComponent.books[1];
+      testedComponent.selectBook(bookToBeSelected);
+      expect(testedComponent.selectedBook).toEqual(bookToBeSelected);
+    });
   });
 });
