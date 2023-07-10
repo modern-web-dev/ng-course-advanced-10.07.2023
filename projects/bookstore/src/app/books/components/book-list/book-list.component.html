@@ -8,7 +8,7 @@
 </ul>
 
 <ng-container *ngIf="selectedBook !== null">
-  <section class="gidc-form-label-left gidc-spacing-v">
+  <section id="editor" class="gidc-form-label-left gidc-spacing-v">
     <mat-form-field>
       <mat-label>Title</mat-label>
       <input #title matInput type="text" [value]="selectedBook.title">
@@ -25,7 +25,7 @@
     </mat-form-field>
   </section>
 
-  <div class="flex-row gap-5">
+  <div id="editor-buttons" class="flex-row gap-5">
     <button mat-stroked-button (click)="selectedBook = null">Cancel</button>
     <button mat-stroked-button color="primary" (click)="save()">Save</button>
   </div>
