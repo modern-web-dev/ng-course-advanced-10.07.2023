@@ -25,7 +25,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/bookstore/src/favicon.ico",
-              "projects/bookstore/src/assets"
+              "projects/bookstore/src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/@gidc/pali/assets",
+                "output": "./assets"
+              }
             ],
             "styles": [
               "projects/bookstore/src/styles.scss"
