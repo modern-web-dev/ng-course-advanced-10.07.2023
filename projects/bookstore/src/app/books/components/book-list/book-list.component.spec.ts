@@ -20,8 +20,7 @@ describe('BookListComponent', () => {
         declarations: [BookListComponent],
         imports: [MaterialModule, BrowserAnimationsModule],
         providers: [BooksService]
-      })
-        .compileComponents();
+      }).compileComponents();
     });
 
     // test utility functions
@@ -46,6 +45,7 @@ describe('BookListComponent', () => {
       fixture = TestBed.createComponent(BookListComponent);
       testedComponent = fixture.componentInstance;
       nativeElement = fixture.nativeElement;
+      bookService = TestBed.inject(BooksService);
       detectChanges();
     });
 
@@ -106,25 +106,26 @@ describe('BookListComponent', () => {
 
     it('saves a changed book and closes the editor once save is clicked', () => {
       // given
-      const oldBooks = testedComponent.books;
+      spyOn(bookService, 'save').and.callThrough();
       clickAt(bookAt(1));
       detectChanges(); // selectedBook is not null now
       // when
-      editField(titleElement(), "foo");
-      editField(authorElement(), "bar");
-      editField(descriptionElement(), "1234");
+      const newTitle = "foo";
+      const newAuthor = "bar";
+      const newDescription = "1234";
+      editField(titleElement(), newTitle);
+      editField(authorElement(), newAuthor);
+      editField(descriptionElement(), newDescription);
       clickAt(saveButton());
       detectChanges(); // no book is selected now, book list is refreshed
       // then
       expect(editor()).toBeFalsy();
       expect(editorButtons()).toBeFalsy();
-      const newBooks = testedComponent.books;
-      expect(newBooks).not.toEqual(oldBooks);
-      expect(newBooks[1]).toEqual({
+      expect(bookService.save).toHaveBeenCalledWith({
         id: 2,
-        title: 'foo',
-        author: 'bar',
-        description: '1234'
+        title: newTitle,
+        author: newAuthor,
+        description: newDescription
       });
     });
   });
