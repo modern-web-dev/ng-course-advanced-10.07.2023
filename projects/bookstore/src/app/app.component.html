@@ -5,11 +5,11 @@
 
     <mat-form-field>
       <mat-label>Title</mat-label>
-      <input matInput #editor type="text" [value]="title" (input)="title = editor.value">
+      <input matInput #editor type="text" [value]="title" (input)="updateValue()">
     </mat-form-field>
   </section>
 
-  <button mat-stroked-button color="warn" (click)="title = 'bookstore'">Reset</button>
+  <button mat-stroked-button color="warn" (click)="reset()">Reset</button>
 
   <p>{{ title }}</p>
 
