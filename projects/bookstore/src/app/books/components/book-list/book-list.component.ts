@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {BooksService} from "../../services/books.service";
 import {Book} from "../../model/book";
 
@@ -14,6 +14,15 @@ export class BookListComponent {
 
   selectedBook: Book | null = null;
 
+  @ViewChild("title")
+  titleElement!: ElementRef<HTMLInputElement>;
+
+  @ViewChild("author")
+  authorElement!: ElementRef<HTMLInputElement>;
+
+  @ViewChild("description")
+  descriptionElement!: ElementRef<HTMLTextAreaElement>;
+
   constructor(private booksService: BooksService) {
     this.books = booksService.getBooks();
   }
@@ -23,6 +32,22 @@ export class BookListComponent {
       this.selectedBook = null;
     } else {
       this.selectedBook = book;
+    }
+  }
+
+  save(): void {
+    if (this.selectedBook) {
+      const book: Book = {
+        id: this.selectedBook?.id,
+        title: this.titleElement.nativeElement.value,
+        author: this.authorElement.nativeElement.value,
+        description: this.descriptionElement.nativeElement.value
+      }
+      this.booksService.save(book);
+      this.selectedBook = null;
+      this.books = this.booksService.getBooks();
+    } else {
+      console.warn("Book is not selected!");
     }
   }
 }

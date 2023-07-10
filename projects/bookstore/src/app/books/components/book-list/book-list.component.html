@@ -7,21 +7,26 @@
   </li>
 </ul>
 
-<section class="gidc-form-label-left gidc-spacing-v" *ngIf="selectedBook !== null">
-  <mat-form-field>
-    <mat-label>Title</mat-label>
-    <input matInput type="text" [value]="selectedBook.title">
-  </mat-form-field>
+<ng-container *ngIf="selectedBook !== null">
+  <section class="gidc-form-label-left gidc-spacing-v">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input #title matInput type="text" [value]="selectedBook.title">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Author</mat-label>
-    <input matInput type="text" [value]="selectedBook.author">
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Author</mat-label>
+      <input #author matInput type="text" [value]="selectedBook.author">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Description</mat-label>
-    <textarea matInput type="text" >{{ selectedBook.description }}</textarea>
-  </mat-form-field>
-</section>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea #description matInput type="text" class="v-xx-large">{{ selectedBook.description }}</textarea>
+    </mat-form-field>
+  </section>
 
-<!--<button mat-stroked-button color="warn" (click)="reset()">Reset</button>-->
+  <div class="flex-row gap-5">
+    <button mat-stroked-button (click)="selectedBook = null">Cancel</button>
+    <button mat-stroked-button color="primary" (click)="save()">Save</button>
+  </div>
+</ng-container>
