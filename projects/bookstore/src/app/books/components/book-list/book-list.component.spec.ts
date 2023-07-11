@@ -5,6 +5,7 @@ import {MaterialModule} from "../../../shared/material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import SpyObj = jasmine.SpyObj;
 import createSpyObj = jasmine.createSpyObj;
+import {BookDetailsComponent} from "./book-details/book-details.component";
 
 const booksTestData = () => [{
   id: 1,
@@ -40,7 +41,7 @@ describe('BookListComponent', () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [BookListComponent],
+        declarations: [BookListComponent, BookDetailsComponent],
         imports: [MaterialModule, BrowserAnimationsModule],
         providers: [{ provide: BooksService, useValue: bookServiceMock }]
       }).compileComponents();
