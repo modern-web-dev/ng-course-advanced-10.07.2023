@@ -11,17 +11,7 @@ import {Book} from "../../model/book";
 export class BookListComponent {
 
   books: Book[];
-
   selectedBook: Book | null = null;
-
-  @ViewChild("title")
-  titleElement!: ElementRef<HTMLInputElement>;
-
-  @ViewChild("author")
-  authorElement!: ElementRef<HTMLInputElement>;
-
-  @ViewChild("description")
-  descriptionElement!: ElementRef<HTMLTextAreaElement>;
 
   constructor(private booksService: BooksService) {
     this.books = booksService.getBooks();
@@ -35,14 +25,8 @@ export class BookListComponent {
     }
   }
 
-  save(): void {
+  save(book: Book): void {
     if (this.selectedBook) {
-      const book: Book = {
-        id: this.selectedBook?.id,
-        title: this.titleElement.nativeElement.value,
-        author: this.authorElement.nativeElement.value,
-        description: this.descriptionElement.nativeElement.value
-      }
       this.booksService.save(book);
       this.selectedBook = null;
       this.books = this.booksService.getBooks();

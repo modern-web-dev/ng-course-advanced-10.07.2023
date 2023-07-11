@@ -1,0 +1,23 @@
+<ng-container *ngIf="selectedBook !== null">
+  <section id="editor" class="gidc-form-label-left gidc-spacing-v">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input #title id="title" matInput type="text" [value]="selectedBook.title">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Author</mat-label>
+      <input #author id="author" matInput type="text" [value]="selectedBook.author">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea #description id="description" matInput type="text" class="v-xx-large">{{ selectedBook.description }}</textarea>
+    </mat-form-field>
+  </section>
+
+  <div id="editor-buttons" class="flex-row gap-5">
+    <button id="cancel" mat-stroked-button (click)="cancel()">Cancel</button>
+    <button id="save" mat-stroked-button color="primary" (click)="save()">Save</button>
+  </div>
+</ng-container>
