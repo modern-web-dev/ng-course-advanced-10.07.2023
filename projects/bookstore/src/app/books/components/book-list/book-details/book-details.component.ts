@@ -36,7 +36,6 @@ export class BookDetailsComponent implements OnInit, AfterViewInit, OnChanges, O
 
   ngOnInit(): void {
     console.log(`BookDetails.ngOnInit(), ${this.selectedBook}`);
-    this.book = {...this.selectedBook};
   }
 
   ngAfterViewInit(): void {
@@ -45,6 +44,9 @@ export class BookDetailsComponent implements OnInit, AfterViewInit, OnChanges, O
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(`BookDetails.ngOnChanges(), ${JSON.stringify(changes)}, ${JSON.stringify(this.selectedBook)}`);
+    if (changes['selectedBook']) {
+      this.book = {...this.selectedBook};
+    }
   }
 
   ngOnDestroy(): void {

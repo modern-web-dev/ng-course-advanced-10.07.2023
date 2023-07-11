@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {BooksService} from "../../services/books.service";
 import {Book} from "../../model/book";
 
@@ -13,7 +13,7 @@ export class BookListComponent {
   books: Book[];
   selectedBook: Book | null = null;
 
-  constructor(private booksService: BooksService, private cdr: ChangeDetectorRef) {
+  constructor(private booksService: BooksService) {
     this.books = booksService.getBooks();
   }
 
@@ -21,8 +21,6 @@ export class BookListComponent {
     if (this.selectedBook === book) {
       this.selectedBook = null;
     } else {
-      this.selectedBook = null;
-      this.cdr.detectChanges();
       this.selectedBook = book;
     }
   }
