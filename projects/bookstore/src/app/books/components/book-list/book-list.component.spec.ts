@@ -6,6 +6,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import SpyObj = jasmine.SpyObj;
 import createSpyObj = jasmine.createSpyObj;
 import {BookDetailsComponent} from "./book-details/book-details.component";
+import {FormsModule} from "@angular/forms";
 
 const booksTestData = () => [{
   id: 1,
@@ -30,7 +31,7 @@ describe('BookListComponent', () => {
   let testedComponent: BookListComponent;
 
   beforeEach(() => {
-    bookServiceMock = createSpyObj(['getBooks', 'save']);
+    bookServiceMock = createSpyObj('BooksService',['getBooks', 'save']);
     bookServiceMock.getBooks.and.returnValue(booksTestData());
   });
 
@@ -42,7 +43,7 @@ describe('BookListComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [BookListComponent, BookDetailsComponent],
-        imports: [MaterialModule, BrowserAnimationsModule],
+        imports: [MaterialModule, BrowserAnimationsModule, FormsModule],
         providers: [{ provide: BooksService, useValue: bookServiceMock }]
       }).compileComponents();
     });
@@ -62,8 +63,10 @@ describe('BookListComponent', () => {
     // "verbs"
     const detectChanges = () => fixture.detectChanges();
     const clickAt = (element: HTMLElement) => element.dispatchEvent(new MouseEvent('click'));
-    const editField = (element: HTMLInputElement | HTMLTextAreaElement, value: string) =>
+    const editField = (element: HTMLInputElement | HTMLTextAreaElement, value: string) =>{
       element.value = value;
+      element.dispatchEvent(new Event('input'));
+    }
 
     beforeEach(() => {
       fixture = TestBed.createComponent(BookListComponent);
