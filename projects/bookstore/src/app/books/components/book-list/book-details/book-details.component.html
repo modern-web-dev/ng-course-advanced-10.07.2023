@@ -1,18 +1,20 @@
-<ng-container *ngIf="selectedBook !== null">
+<ng-container *ngIf="book !== null">
   <section id="editor" class="gidc-form-label-left gidc-spacing-v">
     <mat-form-field>
       <mat-label>Title</mat-label>
-      <input #title id="title" matInput type="text" [value]="selectedBook.title">
+      <input id="title" matInput type="text" [ngModel]="book.title"
+             (ngModelChange)="book.title = $event">
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Author</mat-label>
-      <input #author id="author" matInput type="text" [value]="selectedBook.author">
+      <input id="author" matInput type="text" [(ngModel)]="book.author">
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Description</mat-label>
-      <textarea #description id="description" matInput type="text" class="v-xx-large">{{ selectedBook.description }}</textarea>
+      <textarea id="description" matInput type="text" class="v-xx-large"
+                [(ngModel)]="book.description"></textarea>
     </mat-form-field>
   </section>
 

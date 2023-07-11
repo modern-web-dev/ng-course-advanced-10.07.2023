@@ -3,7 +3,8 @@ import {CommonModule} from '@angular/common';
 import {BookListComponent} from './components/book-list/book-list.component';
 import {MaterialModule} from "../shared/material.module";
 import {BooksService} from "./services/books.service";
-import { BookDetailsComponent } from './components/book-list/book-details/book-details.component';
+import {BookDetailsComponent} from './components/book-list/book-details/book-details.component';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { BookDetailsComponent } from './components/book-list/book-details/book-d
   ],
   imports: [
     CommonModule,
+    FormsModule,
     MaterialModule
   ],
   providers: [
