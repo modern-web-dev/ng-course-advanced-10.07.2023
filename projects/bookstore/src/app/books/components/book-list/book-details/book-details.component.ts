@@ -10,7 +10,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import {Book} from "../../../model/book";
-import {FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-book-details',
@@ -77,28 +77,5 @@ export class BookDetailsComponent implements OnInit, AfterViewInit, OnChanges, O
 
   cancel(): void {
     this.cancelClicked.emit();
-  }
-
-  dumpErrors(errors: ValidationErrors | null): string {
-    if (errors) {
-      const errorKeys = Object.keys(errors);
-      return errorKeys
-        .map(errorKey => this.errorToMessage(errorKey, errors[errorKey]))
-        .join(', ');
-    } else {
-      return '';
-    }
-  }
-
-  errorToMessage(errorKey: string, errorData: any): string {
-    switch(errorKey) {
-      case 'required':
-        return `Value for this field is required.`;
-      case 'minlength':
-        return `Value for this field is ${errorData.actualLength} characters long, which is less than required ${errorData.requiredLength}`;
-      case 'maxlength':
-        return `Value for this field is ${errorData.actualLength} characters long, which is more than required ${errorData.requiredLength}`;
-    }
-    return '';
   }
 }

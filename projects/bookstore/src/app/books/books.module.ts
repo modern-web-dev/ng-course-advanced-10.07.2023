@@ -5,6 +5,7 @@ import {MaterialModule} from "../shared/material.module";
 import {BooksService} from "./services/books.service";
 import {BookDetailsComponent} from './components/book-list/book-details/book-details.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import {SharedModule} from "../shared/shared.module";
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import {ReactiveFormsModule} from "@angular/forms";
   ],
   imports: [
     CommonModule,
+    SharedModule,
     ReactiveFormsModule,
     MaterialModule
   ],

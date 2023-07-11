@@ -7,7 +7,7 @@
         <mat-label>Title</mat-label>
         <input id="title" matInput type="text" [formControl]="titleControl">
         <mat-error *ngIf="titleControl.invalid">
-          {{ dumpErrors(titleControl.errors) }}.
+          {{ titleControl.errors | errorMsg : 'title' }}
         </mat-error>
       </mat-form-field>
 
@@ -15,7 +15,7 @@
         <mat-label>Author</mat-label>
         <input id="author" matInput type="text" formControlName="author">
         <mat-error *ngIf="authorControl.invalid">
-          {{ dumpErrors(authorControl.errors) }}.
+          {{ authorControl.errors | errorMsg: 'author' }}
         </mat-error>
       </mat-form-field>
 
@@ -24,7 +24,7 @@
         <textarea id="description" matInput type="text" class="v-xx-large" formControlName="description"
         ></textarea>
         <mat-error *ngIf="descriptionControl.invalid">
-          {{ dumpErrors(descriptionControl.errors) }}.
+          {{ descriptionControl.errors | errorMsg: 'description' }}
         </mat-error>
       </mat-form-field>
     </form>
