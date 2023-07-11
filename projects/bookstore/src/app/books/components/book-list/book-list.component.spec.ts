@@ -3,7 +3,8 @@ import {BooksService} from "../../services/books.service";
 import {ComponentFixture, TestBed} from "@angular/core/testing";
 import {MaterialModule} from "../../../shared/material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import createSpy = jasmine.createSpy;
+import SpyObj = jasmine.SpyObj;
+import createSpyObj = jasmine.createSpyObj;
 
 const booksTestData = () => [{
   id: 1,
@@ -24,14 +25,12 @@ const booksTestData = () => [{
 
 describe('BookListComponent', () => {
 
-  let bookServiceMock: any;//BooksService;
+  let bookServiceMock: SpyObj<BooksService>;
   let testedComponent: BookListComponent;
 
   beforeEach(() => {
-    bookServiceMock = {
-      getBooks: createSpy().and.returnValue(booksTestData()),
-      save: createSpy()
-    };
+    bookServiceMock = createSpyObj(['getBooks', 'save']);
+    bookServiceMock.getBooks.and.returnValue(booksTestData());
   });
 
   describe('[DOM]', () => {
@@ -69,7 +68,6 @@ describe('BookListComponent', () => {
       fixture = TestBed.createComponent(BookListComponent);
       testedComponent = fixture.componentInstance;
       nativeElement = fixture.nativeElement;
-      bookServiceMock = TestBed.inject(BooksService);
       detectChanges();
     });
 
