@@ -117,24 +117,22 @@ describe('BookListComponent', () => {
       expect(editorButtons()).toBeFalsy();
     });
 
-    it('closes an editor when save is clicked', () => {
+    it('save cannot be clicked if there are no changes in the form', () => {
       // given
+      // when
       clickAt(bookAt(1));
       detectChanges();
       expect(editor()).toBeTruthy();
       expect(editorButtons()).toBeTruthy();
-      // when
-      clickAt(saveButton());
-      detectChanges();
       // then
-      expect(editor()).toBeFalsy();
-      expect(editorButtons()).toBeFalsy();
+      expect(saveButton().disabled).toBeTruthy();
     });
 
     it('saves a changed book and closes the editor once save is clicked', () => {
       // given
       clickAt(bookAt(1));
       detectChanges(); // selectedBook is not null now
+      expect(saveButton().disabled).toBeTruthy();
       // when
       const newTitle = "foo";
       const newAuthor = "bar";
@@ -142,6 +140,8 @@ describe('BookListComponent', () => {
       editField(titleElement(), newTitle);
       editField(authorElement(), newAuthor);
       editField(descriptionElement(), newDescription);
+      detectChanges();
+      expect(saveButton().disabled).toBeFalsy();
       clickAt(saveButton());
       detectChanges(); // no book is selected now, book list is refreshed
       // then

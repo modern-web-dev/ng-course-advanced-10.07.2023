@@ -30,17 +30,12 @@
     </form>
   </section>
 
-  <div>
-    Validation status:
-    valid = {{ formGroup.valid }},
-    pristine = {{ formGroup.pristine }},
-    dirty = {{ formGroup.dirty }},
-    touched = {{ formGroup.touched}},
-    {{ formGroup.errors }}.
-  </div>
-
   <div id="editor-buttons" class="flex-row gap-5">
     <button id="cancel" mat-stroked-button (click)="cancel()">Cancel</button>
-    <button id="save" mat-stroked-button color="primary" (click)="save()">Save</button>
+    <button id="save" mat-stroked-button color="primary"
+            [disabled]="formGroup.pristine || formGroup.invalid"
+            (click)="save()">Save</button>
+    <button mat-stroked-button (click)="descriptionControl.enable()">Enable description</button>
+    <button mat-stroked-button (click)="descriptionControl.disable()">Disable description</button>
   </div>
 </ng-container>

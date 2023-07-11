@@ -42,13 +42,14 @@ export class BookDetailsComponent implements OnInit, AfterViewInit, OnChanges, O
 
     this.titleControl = new FormControl('', [Validators.required, Validators.maxLength(20), Validators.minLength(2)]);
     this.authorControl = new FormControl('', [Validators.required, Validators.maxLength(15)]);
+    // this.descriptionControl = new FormControl({ value: '', disabled: true }, [Validators.maxLength(100)]);
     this.descriptionControl = new FormControl('', [Validators.maxLength(100)]);
     this.formGroup = new FormGroup({
       id: new FormControl(),
       title: this.titleControl,
       author: this.authorControl,
       description: this.descriptionControl
-    }, {updateOn: "change"});
+    });
   }
 
   ngOnInit(): void {
