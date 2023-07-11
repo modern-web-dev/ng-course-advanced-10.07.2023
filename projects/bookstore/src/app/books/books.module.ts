@@ -4,7 +4,7 @@ import {BookListComponent} from './components/book-list/book-list.component';
 import {MaterialModule} from "../shared/material.module";
 import {BooksService} from "./services/books.service";
 import {BookDetailsComponent} from './components/book-list/book-details/book-details.component';
-import {FormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -17,7 +17,7 @@ import {FormsModule} from "@angular/forms";
   ],
   imports: [
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     MaterialModule
   ],
   providers: [

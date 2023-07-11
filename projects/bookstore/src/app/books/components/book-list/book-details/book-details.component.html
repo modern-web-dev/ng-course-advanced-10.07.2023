@@ -1,21 +1,22 @@
 <ng-container>
   <section id="editor" class="gidc-form-label-left gidc-spacing-v">
-    <mat-form-field>
-      <mat-label>Title</mat-label>
-      <input id="title" matInput type="text" [ngModel]="book.title"
-             (ngModelChange)="book.title = $event">
-    </mat-form-field>
+    <form [formGroup]="formGroup">
+      <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input id="title" matInput type="text" formControlName="title">
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Author</mat-label>
-      <input id="author" matInput type="text" [(ngModel)]="book.author">
-    </mat-form-field>
+      <mat-form-field>
+        <mat-label>Author</mat-label>
+        <input id="author" matInput type="text" formControlName="author">
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Description</mat-label>
-      <textarea id="description" matInput type="text" class="v-xx-large"
-                [(ngModel)]="book.description"></textarea>
-    </mat-form-field>
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea id="description" matInput type="text" class="v-xx-large" formControlName="description"
+        ></textarea>
+      </mat-form-field>
+    </form>
   </section>
 
   <div id="editor-buttons" class="flex-row gap-5">
