@@ -7,6 +7,7 @@ import {BookDetailsComponent} from "./book-details/book-details.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import SpyObj = jasmine.SpyObj;
 import createSpyObj = jasmine.createSpyObj;
+import {SharedModule} from "../../../shared/shared.module";
 
 const booksTestData = () => [{
   id: 1,
@@ -43,7 +44,7 @@ describe('BookListComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [BookListComponent, BookDetailsComponent],
-        imports: [MaterialModule, BrowserAnimationsModule, ReactiveFormsModule],
+        imports: [MaterialModule, BrowserAnimationsModule, ReactiveFormsModule, SharedModule],
         providers: [{provide: BooksService, useValue: bookServiceMock}]
       }).compileComponents();
     });
