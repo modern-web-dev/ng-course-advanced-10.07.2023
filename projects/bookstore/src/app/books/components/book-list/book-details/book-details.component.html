@@ -1,23 +1,43 @@
 <ng-container>
   <section id="editor" class="gidc-form-label-left gidc-spacing-v">
     <form [formGroup]="formGroup">
-      <mat-form-field>
+      <mat-form-field class="gidc-form-with-hint"
+        [class.gidc-form-valid]="titleControl.valid"
+        [class.gidc-form-invalid]="titleControl.invalid">
         <mat-label>Title</mat-label>
-        <input id="title" matInput type="text" formControlName="title">
+        <input id="title" matInput type="text" [formControl]="titleControl">
+        <mat-error *ngIf="titleControl.invalid">
+          {{ dumpErrors(titleControl.errors) }}.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Author</mat-label>
         <input id="author" matInput type="text" formControlName="author">
+        <mat-error *ngIf="authorControl.invalid">
+          {{ dumpErrors(authorControl.errors) }}.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Description</mat-label>
         <textarea id="description" matInput type="text" class="v-xx-large" formControlName="description"
         ></textarea>
+        <mat-error *ngIf="descriptionControl.invalid">
+          {{ dumpErrors(descriptionControl.errors) }}.
+        </mat-error>
       </mat-form-field>
     </form>
   </section>
+
+  <div>
+    Validation status:
+    valid = {{ formGroup.valid }},
+    pristine = {{ formGroup.pristine }},
+    dirty = {{ formGroup.dirty }},
+    touched = {{ formGroup.touched}},
+    {{ formGroup.errors }}.
+  </div>
 
   <div id="editor-buttons" class="flex-row gap-5">
     <button id="cancel" mat-stroked-button (click)="cancel()">Cancel</button>

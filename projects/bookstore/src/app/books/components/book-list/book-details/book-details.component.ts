@@ -10,7 +10,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import {Book} from "../../../model/book";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-book-details',
@@ -25,6 +25,12 @@ export class BookDetailsComponent implements OnInit, AfterViewInit, OnChanges, O
 
   formGroup: FormGroup;
 
+  titleControl: FormControl;
+
+  authorControl: FormControl;
+
+  descriptionControl: FormControl;
+
   @Output()
   saveClicked = new EventEmitter<Book>()
 
@@ -33,12 +39,16 @@ export class BookDetailsComponent implements OnInit, AfterViewInit, OnChanges, O
 
   constructor() {
     console.log('BookDetails.constructor()');
+
+    this.titleControl = new FormControl('', [Validators.required, Validators.maxLength(20), Validators.minLength(2)]);
+    this.authorControl = new FormControl('', [Validators.required, Validators.maxLength(15)]);
+    this.descriptionControl = new FormControl('', [Validators.maxLength(100)]);
     this.formGroup = new FormGroup({
       id: new FormControl(),
-      title: new FormControl(),
-      author: new FormControl(),
-      description: new FormControl()
-    });
+      title: this.titleControl,
+      author: this.authorControl,
+      description: this.descriptionControl
+    }, {updateOn: "change"});
   }
 
   ngOnInit(): void {
@@ -53,7 +63,7 @@ export class BookDetailsComponent implements OnInit, AfterViewInit, OnChanges, O
     console.log(`BookDetails.ngOnChanges(), ${JSON.stringify(changes)}, ${JSON.stringify(this.selectedBook)}`);
     if (changes['selectedBook']) {
       const newBook = {...this.selectedBook};
-      this.formGroup.setValue(newBook);
+      this.formGroup.reset(newBook);
     }
   }
 
@@ -67,5 +77,28 @@ export class BookDetailsComponent implements OnInit, AfterViewInit, OnChanges, O
 
   cancel(): void {
     this.cancelClicked.emit();
+  }
+
+  dumpErrors(errors: ValidationErrors | null): string {
+    if (errors) {
+      const errorKeys = Object.keys(errors);
+      return errorKeys
+        .map(errorKey => this.errorToMessage(errorKey, errors[errorKey]))
+        .join(', ');
+    } else {
+      return '';
+    }
+  }
+
+  errorToMessage(errorKey: string, errorData: any): string {
+    switch(errorKey) {
+      case 'required':
+        return `Value for this field is required.`;
+      case 'minlength':
+        return `Value for this field is ${errorData.actualLength} characters long, which is less than required ${errorData.requiredLength}`;
+      case 'maxlength':
+        return `Value for this field is ${errorData.actualLength} characters long, which is more than required ${errorData.requiredLength}`;
+    }
+    return '';
   }
 }
