@@ -8,6 +8,7 @@
 </ul>
 
 <app-book-details
+  *ngIf="selectedBook != null"
   [selectedBook]="selectedBook"
   (saveClicked)="save($event)"
   (cancelClicked)="selectedBook = null"
