@@ -5,6 +5,7 @@ import {MaterialModule} from "../../../../shared/material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {Component, ViewChild} from "@angular/core";
 import {Book} from "../../../model/book";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-test-component',
@@ -32,7 +33,7 @@ describe('BookDetailsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TestComponent, BookDetailsComponent],
-      imports: [MaterialModule, BrowserAnimationsModule]
+      imports: [MaterialModule, BrowserAnimationsModule, ReactiveFormsModule]
     })
       .compileComponents();
 
