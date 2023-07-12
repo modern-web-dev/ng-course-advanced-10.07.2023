@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import {Book} from "../model/book";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {environment} from "../../../environments/environment";
+
+const BOOKS_URL = `${environment.backendUrl}/books`
 
 @Injectable()
 export class BooksService {
@@ -10,10 +13,10 @@ export class BooksService {
   }
 
   getBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>("http://localhost:3000/books");
+    return this.http.get<Book[]>(`${BOOKS_URL}`);
   }
 
   save(book: Book): Observable<Book> {
-    return this.http.put<Book>(`http://localhost:3000/books/${book.id}`, book);
+    return this.http.put<Book>(`${BOOKS_URL}/${book.id}`, book);
   }
 }
