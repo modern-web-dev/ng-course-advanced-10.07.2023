@@ -6,7 +6,7 @@ import {FormControl} from "@angular/forms";
 import {select, Store} from "@ngrx/store";
 import {BooksState} from "../../store/books.reducer";
 import {BooksSelector} from "../../store/books.selectors";
-import {deselectBookAction, selectBookAction, setBooksAction} from "../../store/books.actions";
+import {deselectBookAction, loadBooksAction, selectBookAction, setBooksAction} from "../../store/books.actions";
 
 @Component({
   selector: 'app-book-list',
@@ -28,15 +28,11 @@ export class BookListComponent implements OnDestroy {
     this.registerSearch();
     this.books$ = this.store.pipe(select(BooksSelector.getBooks));
     this.selectedBook$ = this.store.pipe(select(BooksSelector.getSelectedBook));
-
     this.loadBooks();
   }
 
-
   private loadBooks() {
-    this.booksService.getBooks()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(books => this.store.dispatch(setBooksAction({books})));
+    this.store.dispatch(loadBooksAction());
   }
 
   ngOnDestroy() {
@@ -46,11 +42,6 @@ export class BookListComponent implements OnDestroy {
 
   selectBook(book: Book) {
     this.store.dispatch(selectBookAction({book}));
-    // if (this.selectedBook === book) {
-    //   this.selectedBook = null;
-    // } else {
-    //   this.selectedBook = book;
-    // }
   }
 
   save(book: Book): void {
@@ -61,17 +52,6 @@ export class BookListComponent implements OnDestroy {
         this.deselectBook();
         this.loadBooks();
       });
-
-    // if (this.selectedBook) {
-    //   this.booksService.save(book)
-    //     .pipe(takeUntil(this.unsubscribe$))
-    //     .subscribe(_ => {
-    //       this.selectedBook = null;
-    //       this.books$ = this.booksService.getBooks();
-    //     });
-    // } else {
-    //   console.warn("Book is not selected!");
-    // }
   }
 
   deselectBook(): void {

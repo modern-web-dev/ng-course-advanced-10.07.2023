@@ -9,6 +9,7 @@ import {BooksModule} from "./books/books.module";
 import {CoreModule} from "./core/core.module";
 import {StoreModule} from "@ngrx/store";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import {EffectsModule} from "@ngrx/effects";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
     BooksModule,
     GidcRootModule,
     StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument()
   ],
   providers: [],

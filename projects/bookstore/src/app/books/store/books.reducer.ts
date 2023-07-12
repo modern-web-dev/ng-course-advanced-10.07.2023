@@ -18,6 +18,6 @@ export const INITIAL_BOOKS_STATE: BooksState = {
 export const booksStateReducer = createReducer(
   INITIAL_BOOKS_STATE,
   on(setBooksAction, (state: BooksState, {books}) => ({...state, books: books})),
-  on(selectBookAction, (state: BooksState, {book}) => ({...state, selectedBook: book})),
+  on(selectBookAction, (state: BooksState, {book}) => ({...state, selectedBook: state.selectedBook === book ? null : book})),
   on(deselectBookAction, (state: BooksState) => ({...state, selectedBook: null}))
 );
