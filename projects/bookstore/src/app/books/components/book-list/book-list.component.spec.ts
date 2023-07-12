@@ -167,11 +167,11 @@ describe('BookListComponent', () => {
     });
 
     it('has three books on the list', () => {
-      expect(testedComponent.books).toHaveSize(3);
+      expect(testedComponent.books$).toHaveSize(3);
     });
 
     it('can select a book', () => {
-      const bookToBeSelected = testedComponent.books[1];
+      const bookToBeSelected = testedComponent.books$[1];
       testedComponent.selectBook(bookToBeSelected);
       expect(testedComponent.selectedBook).toEqual(bookToBeSelected);
     });

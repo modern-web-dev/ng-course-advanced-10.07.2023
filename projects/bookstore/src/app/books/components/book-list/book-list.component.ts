@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {BooksService} from "../../services/books.service";
 import {Book} from "../../model/book";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-book-list',
@@ -10,11 +11,11 @@ import {Book} from "../../model/book";
 })
 export class BookListComponent {
 
-  books: Book[];
+  books$: Observable<Book[]>;
   selectedBook: Book | null = null;
 
   constructor(private booksService: BooksService) {
-    this.books = booksService.getBooks();
+    this.books$ = booksService.getBooks();
   }
 
   selectBook(book: Book) {
@@ -27,9 +28,10 @@ export class BookListComponent {
 
   save(book: Book): void {
     if (this.selectedBook) {
-      this.booksService.save(book);
-      this.selectedBook = null;
-      this.books = this.booksService.getBooks();
+      this.booksService.save(book).subscribe(_ => {
+        this.selectedBook = null;
+        this.books$ = this.booksService.getBooks();
+      });
     } else {
       console.warn("Book is not selected!");
     }

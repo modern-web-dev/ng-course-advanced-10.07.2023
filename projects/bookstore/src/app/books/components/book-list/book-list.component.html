@@ -1,6 +1,6 @@
 <ul>
   <li
-      *ngFor="let book of books"
+      *ngFor="let book of books$ | async"
       (click)="selectBook(book)"
       [ngClass]="{ selected: book === selectedBook }">
     {{ book.title }}, <em>{{ book.author }}</em>

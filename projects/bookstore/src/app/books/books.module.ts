@@ -6,6 +6,7 @@ import {BooksService} from "./services/books.service";
 import {BookDetailsComponent} from './components/book-list/book-details/book-details.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../shared/shared.module";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {SharedModule} from "../shared/shared.module";
   imports: [
     CommonModule,
     SharedModule,
+    HttpClientModule,
     ReactiveFormsModule,
     MaterialModule
   ],
