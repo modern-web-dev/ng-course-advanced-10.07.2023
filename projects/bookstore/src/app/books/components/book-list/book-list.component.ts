@@ -1,12 +1,11 @@
 import {Component, OnDestroy} from '@angular/core';
-import {BooksService} from "../../services/books.service";
 import {Book} from "../../model/book";
-import {Observable, Subject, takeUntil} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {FormControl} from "@angular/forms";
 import {select, Store} from "@ngrx/store";
 import {BooksState} from "../../store/books.reducer";
 import {BooksSelector} from "../../store/books.selectors";
-import {deselectBookAction, loadBooksAction, selectBookAction, setBooksAction} from "../../store/books.actions";
+import {deselectBookAction, loadBooksAction, saveBookAction, selectBookAction} from "../../store/books.actions";
 
 @Component({
   selector: 'app-book-list',
@@ -23,7 +22,7 @@ export class BookListComponent implements OnDestroy {
 
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private readonly booksService: BooksService, private readonly store: Store<BooksState>) {
+  constructor(private readonly store: Store<BooksState>) {
     this.searchControl = new FormControl();
     this.registerSearch();
     this.books$ = this.store.pipe(select(BooksSelector.getBooks));
@@ -45,13 +44,8 @@ export class BookListComponent implements OnDestroy {
   }
 
   save(book: Book): void {
-
-    this.booksService.save(book)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(_ => {
-        this.deselectBook();
-        this.loadBooks();
-      });
+    this.store.dispatch(saveBookAction({book}));
+    this.deselectBook();
   }
 
   deselectBook(): void {
