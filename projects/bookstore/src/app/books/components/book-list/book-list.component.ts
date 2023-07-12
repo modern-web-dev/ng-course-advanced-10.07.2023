@@ -1,8 +1,12 @@
 import {Component, OnDestroy} from '@angular/core';
 import {BooksService} from "../../services/books.service";
 import {Book} from "../../model/book";
-import {debounceTime, distinctUntilChanged, filter, Observable, Subject, takeUntil} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {FormControl} from "@angular/forms";
+import {select, Store} from "@ngrx/store";
+import {BooksState} from "../../store/books.reducer";
+import {BooksSelector} from "../../store/books.selectors";
+import {deselectBookAction, selectBookAction, setBooksAction} from "../../store/books.actions";
 
 @Component({
   selector: 'app-book-list',
@@ -12,19 +16,28 @@ import {FormControl} from "@angular/forms";
 })
 export class BookListComponent implements OnDestroy {
 
-  books$: Observable<Book[]>;
-  selectedBook: Book | null = null;
+  readonly books$: Observable<Book[]>;
+  readonly selectedBook$: Observable<Book | null>;
 
   searchControl: FormControl;
 
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private booksService: BooksService) {
+  constructor(private readonly booksService: BooksService, private readonly store: Store<BooksState>) {
     this.searchControl = new FormControl();
     this.registerSearch();
-    this.books$ = booksService.getBooks();
+    this.books$ = this.store.pipe(select(BooksSelector.getBooks));
+    this.selectedBook$ = this.store.pipe(select(BooksSelector.getSelectedBook));
+
+    this.loadBooks();
   }
 
+
+  private loadBooks() {
+    this.booksService.getBooks()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(books => this.store.dispatch(setBooksAction({books})));
+  }
 
   ngOnDestroy() {
     this.unsubscribe$.next();
@@ -32,41 +45,56 @@ export class BookListComponent implements OnDestroy {
   }
 
   selectBook(book: Book) {
-    if (this.selectedBook === book) {
-      this.selectedBook = null;
-    } else {
-      this.selectedBook = book;
-    }
+    this.store.dispatch(selectBookAction({book}));
+    // if (this.selectedBook === book) {
+    //   this.selectedBook = null;
+    // } else {
+    //   this.selectedBook = book;
+    // }
   }
 
   save(book: Book): void {
-    if (this.selectedBook) {
-      this.booksService.save(book)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(_ => {
-          this.selectedBook = null;
-          this.books$ = this.booksService.getBooks();
-        });
-    } else {
-      console.warn("Book is not selected!");
-    }
+
+    this.booksService.save(book)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(_ => {
+        this.deselectBook();
+        this.loadBooks();
+      });
+
+    // if (this.selectedBook) {
+    //   this.booksService.save(book)
+    //     .pipe(takeUntil(this.unsubscribe$))
+    //     .subscribe(_ => {
+    //       this.selectedBook = null;
+    //       this.books$ = this.booksService.getBooks();
+    //     });
+    // } else {
+    //   console.warn("Book is not selected!");
+    // }
   }
 
-  private registerSearch() {
-    this.searchControl.valueChanges
-      .pipe(
-        takeUntil(this.unsubscribe$),
-        filter(value => value.length != 1),
-        debounceTime(500),
-        distinctUntilChanged()
-      )
-      .subscribe(value => {
-        console.log(`query=${value}`);
-        if (value) {
-          this.books$ = this.booksService.queryForBooks(value);
-        } else {
-          this.books$ = this.booksService.getBooks();
-        }
-      });
+  deselectBook(): void {
+    this.store.dispatch(deselectBookAction());
   }
+
+
+  private registerSearch() {
+    // this.searchControl.valueChanges
+    //   .pipe(
+    //     takeUntil(this.unsubscribe$),
+    //     filter(value => value.length != 1),
+    //     debounceTime(500),
+    //     distinctUntilChanged()
+    //   )
+    //   .subscribe(value => {
+    //     console.log(`query=${value}`);
+    //     if (value) {
+    //       this.books$ = this.booksService.queryForBooks(value);
+    //     } else {
+    //       this.books$ = this.booksService.getBooks();
+    //     }
+    //   });
+  }
+
 }

@@ -21,7 +21,7 @@ export class BookDetailsComponent implements OnInit, AfterViewInit, OnChanges, O
 
 
   @Input()
-  selectedBook!: Book;
+  selectedBook!: Book | null;
 
   formGroup: FormGroup;
 
