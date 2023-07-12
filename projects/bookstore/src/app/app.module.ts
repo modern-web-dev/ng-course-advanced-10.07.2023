@@ -7,6 +7,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {GidcRootModule} from "@gidc/pali/root-module";
 import {BooksModule} from "./books/books.module";
 import {CoreModule} from "./core/core.module";
+import {StoreModule} from "@ngrx/store";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {CoreModule} from "./core/core.module";
     AppRoutingModule,
     CoreModule,
     BooksModule,
-    GidcRootModule
+    GidcRootModule,
+    StoreModule.forRoot({})
   ],
   providers: [],
   bootstrap: [AppComponent]

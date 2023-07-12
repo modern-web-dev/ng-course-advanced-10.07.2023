@@ -1,5 +1,5 @@
 {
-  "name": ".",
+  "name": "bookstore",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -21,6 +21,9 @@
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
     "@gidc/pali": "7.2",
+    "@ngrx/effects": "^14.3.3",
+    "@ngrx/store": "^14.3.3",
+    "@ngrx/store-devtools": "^14.3.3",
     "bootstrap": "^5.2.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
