@@ -1,3 +1,10 @@
+<form>
+  <mat-form-field>
+    <mat-label>Search</mat-label>
+    <input matInput type="text" [formControl]="searchControl">
+  </mat-form-field>
+</form>
+
 <ul>
   <li
       *ngFor="let book of books$ | async"

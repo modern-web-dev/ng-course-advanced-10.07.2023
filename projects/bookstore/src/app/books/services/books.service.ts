@@ -15,6 +15,10 @@ export class BooksService {
     return this.http.get<Book[]>(`${BOOKS_URL}`);
   }
 
+  queryForBooks(query: string): Observable<Book[]> {
+    return this.http.get<Book[]>(`${BOOKS_URL}?q=${query}`);
+  }
+
   save(book: Book): Observable<Book> {
     return this.http.put<Book>(`${BOOKS_URL}/${book.id}`, book);
   }

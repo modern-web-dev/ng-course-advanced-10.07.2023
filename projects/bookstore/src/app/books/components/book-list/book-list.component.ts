@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {BooksService} from "../../services/books.service";
 import {Book} from "../../model/book";
-import {Observable} from "rxjs";
+import {debounceTime, distinctUntilChanged, filter, Observable, Subject, takeUntil} from "rxjs";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-book-list',
@@ -9,13 +10,25 @@ import {Observable} from "rxjs";
   styleUrls: ['./book-list.component.scss'],
   // providers: [BooksService]
 })
-export class BookListComponent {
+export class BookListComponent implements OnDestroy {
 
   books$: Observable<Book[]>;
   selectedBook: Book | null = null;
 
+  searchControl: FormControl;
+
+  private unsubscribe$ = new Subject<void>();
+
   constructor(private booksService: BooksService) {
+    this.searchControl = new FormControl();
+    this.registerSearch();
     this.books$ = booksService.getBooks();
+  }
+
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   selectBook(book: Book) {
@@ -28,12 +41,32 @@ export class BookListComponent {
 
   save(book: Book): void {
     if (this.selectedBook) {
-      this.booksService.save(book).subscribe(_ => {
-        this.selectedBook = null;
-        this.books$ = this.booksService.getBooks();
-      });
+      this.booksService.save(book)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(_ => {
+          this.selectedBook = null;
+          this.books$ = this.booksService.getBooks();
+        });
     } else {
       console.warn("Book is not selected!");
     }
+  }
+
+  private registerSearch() {
+    this.searchControl.valueChanges
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter(value => value.length != 1),
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe(value => {
+        console.log(`query=${value}`);
+        if (value) {
+          this.books$ = this.booksService.queryForBooks(value);
+        } else {
+          this.books$ = this.booksService.getBooks();
+        }
+      });
   }
 }
