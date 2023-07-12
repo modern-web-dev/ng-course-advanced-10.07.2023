@@ -8,6 +8,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import SpyObj = jasmine.SpyObj;
 import createSpyObj = jasmine.createSpyObj;
 import {SharedModule} from "../../../shared/shared.module";
+import {of} from "rxjs";
 
 const booksTestData = () => [{
   id: 1,
@@ -33,7 +34,7 @@ describe('BookListComponent', () => {
 
   beforeEach(() => {
     bookServiceMock = createSpyObj('BooksService', ['getBooks', 'save']);
-    bookServiceMock.getBooks.and.returnValue(booksTestData());
+    bookServiceMock.getBooks.and.returnValue(of(booksTestData()));
   });
 
   describe('[DOM]', () => {
@@ -130,13 +131,21 @@ describe('BookListComponent', () => {
 
     it('saves a changed book and closes the editor once save is clicked', () => {
       // given
-      clickAt(bookAt(1));
-      detectChanges(); // selectedBook is not null now
-      expect(saveButton().disabled).toBeTruthy();
-      // when
       const newTitle = "foo";
       const newAuthor = "bar";
       const newDescription = "1234";
+      const bookAfterUpdate = {
+        id: 2,
+        title: newTitle,
+        author: newAuthor,
+        description: newDescription
+      };
+
+      clickAt(bookAt(1));
+      detectChanges(); // selectedBook is not null now
+      expect(saveButton().disabled).toBeTruthy();
+      bookServiceMock.save.and.returnValue(of(bookAfterUpdate));
+      // when
       editField(titleElement(), newTitle);
       editField(authorElement(), newAuthor);
       editField(descriptionElement(), newDescription);
@@ -147,15 +156,11 @@ describe('BookListComponent', () => {
       // then
       expect(editor()).toBeFalsy();
       expect(editorButtons()).toBeFalsy();
-      expect(bookServiceMock.save).toHaveBeenCalledWith({
-        id: 2,
-        title: newTitle,
-        author: newAuthor,
-        description: newDescription
-      });
+      expect(bookServiceMock.save).toHaveBeenCalledWith(bookAfterUpdate);
     });
   });
 
+  // seems to be redundant
   describe('[class]', () => {
 
     beforeEach(() => {
@@ -166,14 +171,21 @@ describe('BookListComponent', () => {
       expect(testedComponent.selectedBook).toBeNull();
     });
 
-    it('has three books on the list', () => {
-      expect(testedComponent.books$).toHaveSize(3);
+    it('has books$ initialized with a list of three', (done) => {
+      testedComponent.books$.subscribe( books => {
+        expect(books).toHaveSize(3);
+        done();
+      });
     });
 
-    it('can select a book', () => {
-      const bookToBeSelected = testedComponent.books$[1];
-      testedComponent.selectBook(bookToBeSelected);
-      expect(testedComponent.selectedBook).toEqual(bookToBeSelected);
+    // seems to be redundant
+    it('can select a book', (done) => {
+      testedComponent.books$.subscribe(books => {
+        const bookToBeSelected = books[1];
+        testedComponent.selectBook(bookToBeSelected);
+        expect(testedComponent.selectedBook).toEqual(bookToBeSelected);
+        done();
+      })
     });
   });
 });
