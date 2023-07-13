@@ -2,16 +2,7 @@ import {Component, OnDestroy} from '@angular/core';
 import {Book} from "../../model/book";
 import {debounceTime, distinctUntilChanged, filter, Observable, Subject, takeUntil} from "rxjs";
 import {FormControl} from "@angular/forms";
-import {select, Store} from "@ngrx/store";
-import {BooksState} from "../../store/books.reducer";
-import {BooksSelector} from "../../store/books.selectors";
-import {
-  deselectBookAction,
-  loadBooksAction,
-  queryBooksAction,
-  saveBookAction,
-  selectBookAction
-} from "../../store/books.actions";
+import {BooksFacadeService} from "../../store/books-facade.service";
 
 @Component({
   selector: 'app-book-list',
@@ -28,16 +19,12 @@ export class BookListComponent implements OnDestroy {
 
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private readonly store: Store<BooksState>) {
+  constructor(private readonly facade: BooksFacadeService) {
     this.searchControl = new FormControl();
     this.registerSearch();
-    this.books$ = this.store.pipe(select(BooksSelector.getBooks));
-    this.selectedBook$ = this.store.pipe(select(BooksSelector.getSelectedBook));
-    this.loadBooks();
-  }
-
-  private loadBooks() {
-    this.store.dispatch(loadBooksAction());
+    this.books$ = this.facade.books$;
+    this.selectedBook$ = this.facade.selectedBook$;
+    this.facade.loadBooks();
   }
 
   ngOnDestroy() {
@@ -46,16 +33,16 @@ export class BookListComponent implements OnDestroy {
   }
 
   selectBook(book: Book) {
-    this.store.dispatch(selectBookAction({book: book}));
+    this.facade.selectBook(book);
   }
 
   save(book: Book): void {
-    this.store.dispatch(saveBookAction({book}));
+    this.facade.save(book);
     this.deselectBook();
   }
 
   deselectBook(): void {
-    this.store.dispatch(deselectBookAction());
+    this.facade.deselectBook();
   }
 
   private registerSearch() {
@@ -69,9 +56,9 @@ export class BookListComponent implements OnDestroy {
       .subscribe(value => {
         console.log(`query=${value}`);
         if (value) {
-          this.store.dispatch(queryBooksAction({query: value}));
+          this.facade.queryBooks(value);
         } else {
-          this.store.dispatch(loadBooksAction());
+          this.facade.loadBooks();
         }
       });
   }
