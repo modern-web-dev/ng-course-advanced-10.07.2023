@@ -7,10 +7,11 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges, ViewChild
 } from '@angular/core';
 import {Book} from "../../../model/book";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {PublisherDetailsComponent} from "../publisher-details/publisher-details.component";
 
 @Component({
   selector: 'app-book-details',
@@ -19,6 +20,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 })
 export class BookDetailsComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
+  @ViewChild(PublisherDetailsComponent, { static: true })
+  publisherDetailsComponent: PublisherDetailsComponent | undefined;
 
   @Input()
   selectedBook!: Book | null;
@@ -31,13 +34,13 @@ export class BookDetailsComponent implements OnInit, AfterViewInit, OnChanges, O
 
   readonly descriptionControl: FormControl;
 
-  readonly editionControl: FormGroup;
-
   @Output()
   saveClicked = new EventEmitter<Book>()
 
   @Output()
   cancelClicked = new EventEmitter<void>();
+
+  private book: Book | null = null;
 
   constructor() {
     console.log('BookDetails.constructor()');
@@ -46,33 +49,36 @@ export class BookDetailsComponent implements OnInit, AfterViewInit, OnChanges, O
     this.authorControl = new FormControl('', [Validators.required, Validators.maxLength(15)]);
     // this.descriptionControl = new FormControl({ value: '', disabled: true }, [Validators.maxLength(100)]);
     this.descriptionControl = new FormControl('', [Validators.maxLength(100)]);
-    this.editionControl = new FormGroup({
-      publisher: new FormControl(),
-      publishYear: new FormControl(),
-      editionNumber: new FormControl()
-    });
     this.formGroup = new FormGroup({
       id: new FormControl(),
       title: this.titleControl,
       author: this.authorControl,
-      description: this.descriptionControl,
-      edition: this.editionControl
+      description: this.descriptionControl
     });
   }
 
   ngOnInit(): void {
     console.log(`BookDetails.ngOnInit(), ${this.selectedBook}`);
+    console.log("ngOnInit" + this.publisherDetailsComponent);
+
+    if (this.publisherDetailsComponent) {
+      this.formGroup.addControl("edition", this.publisherDetailsComponent.formGroup);
+      if (this.book) {
+        this.formGroup.reset(this.book);
+      }
+    }
   }
 
   ngAfterViewInit(): void {
     console.log(`BookDetails.ngAfterViewInit(), ${this.selectedBook}`);
+    console.log("ngAfterViewInit" + this.publisherDetailsComponent);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(`BookDetails.ngOnChanges(), ${JSON.stringify(changes)}, ${JSON.stringify(this.selectedBook)}`);
     if (changes['selectedBook']) {
-      const newBook = {...this.selectedBook};
-      this.formGroup.reset(newBook);
+      this.book = this.selectedBook ? {...this.selectedBook} : null;
+      this.formGroup.reset(this.book);
     }
   }
 
