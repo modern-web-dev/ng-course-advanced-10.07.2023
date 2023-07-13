@@ -13,11 +13,11 @@
     },
     {
       "id": 2,
-      "title": "2001: A Space Odyssey",
+      "title": "2001: A Space Odyss",
       "author": "Arthur C Clarke",
-      "description": "A mysterious alien civilization uses a tool with the appearance of a large crystalline monolith to investigate worlds across the galaxy and, if possible, to encourage the development of intelligent life. The book shows one such monolith appearing in prehistoric Africa, 3 million years ago (in the movie, 4 mya), where it inspires a starving group of hominids to develop tools. The hominids use their tools to kill animals and eat meat, ending their starvation. They then use the tools to kill a leopard preying on them; the next day, the main ape character, Moon-Watcher, uses a club to kill the leader of a rival tribe. The book suggests that the monolith was instrumental in awakening intelligence.",
+      "description": "A mysterious alien civilization uses a tool with the appearance of a l",
       "edition": {
-        "publisher": "WKL",
+        "publisher": "WKL2",
         "publishYear": 2021,
         "editionNumber": 2
       }

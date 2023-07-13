@@ -12,12 +12,14 @@ import {BOOKS_FEATURE, booksStateReducer} from "./store/books.reducer";
 import {EffectsModule} from "@ngrx/effects";
 import {BooksEffects} from "./store/books.effects";
 import {BooksFacadeService} from "./store/books-facade.service";
+import { PublisherDetailsComponent } from './components/book-list/publisher-details/publisher-details.component';
 
 
 @NgModule({
   declarations: [
     BookListComponent,
-    BookDetailsComponent
+    BookDetailsComponent,
+    PublisherDetailsComponent
   ],
   exports: [
     BookListComponent
