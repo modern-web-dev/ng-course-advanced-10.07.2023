@@ -1,0 +1,4 @@
+<div>
+  <label *ngIf="label">{{ label }}</label>
+  <input #input type="text" class="m-3" (input)="valueChanged()" (blur)="blurred()">
+</div>
