@@ -23,13 +23,13 @@ export class BookDetailsComponent implements OnInit, AfterViewInit, OnChanges, O
   @Input()
   selectedBook!: Book | null;
 
-  formGroup: FormGroup;
+  readonly formGroup: FormGroup;
 
-  titleControl: FormControl;
+  readonly titleControl: FormControl;
 
-  authorControl: FormControl;
+  readonly authorControl: FormControl;
 
-  descriptionControl: FormControl;
+  readonly descriptionControl: FormControl;
 
   @Output()
   saveClicked = new EventEmitter<Book>()
@@ -48,7 +48,12 @@ export class BookDetailsComponent implements OnInit, AfterViewInit, OnChanges, O
       id: new FormControl(),
       title: this.titleControl,
       author: this.authorControl,
-      description: this.descriptionControl
+      description: this.descriptionControl,
+      edition: new FormGroup({
+        publisher: new FormControl(),
+        publishYear: new FormControl(),
+        editionNumber: new FormControl()
+      })
     });
   }
 

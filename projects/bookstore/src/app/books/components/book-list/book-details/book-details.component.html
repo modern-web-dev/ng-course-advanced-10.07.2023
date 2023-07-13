@@ -27,6 +27,21 @@
           {{ descriptionControl.errors | errorMsg: 'description' }}
         </mat-error>
       </mat-form-field>
+
+      <ng-container formGroupName="edition">
+        <mat-form-field>
+          <mat-label>Publisher</mat-label>
+          <input matInput type="text" formControlName="publisher">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Publish year</mat-label>
+          <input matInput type="number" formControlName="publishYear">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Edition number</mat-label>
+          <input matInput type="number" formControlName="editionNumber">
+        </mat-form-field>
+      </ng-container>
     </form>
   </section>
 
