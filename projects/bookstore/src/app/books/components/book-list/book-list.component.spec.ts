@@ -5,15 +5,12 @@ import {MaterialModule} from "../../../shared/material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BookDetailsComponent} from "./book-details/book-details.component";
 import {ReactiveFormsModule} from "@angular/forms";
+import {SharedModule} from "../../../shared/shared.module";
+import {of, Subject} from "rxjs";
+import {BooksFacadeService} from "../../store/books-facade.service";
 import SpyObj = jasmine.SpyObj;
 import createSpyObj = jasmine.createSpyObj;
-import {SharedModule} from "../../../shared/shared.module";
-import {of} from "rxjs";
-import {MockStore, provideMockStore} from "@ngrx/store/testing";
-import {INITIAL_BOOKS_STATE} from "../../store/books.reducer";
-import {BooksSelector} from "../../store/books.selectors";
-import {ofType} from "@ngrx/effects";
-import {saveBookAction} from "../../store/books.actions";
+import {Book} from "../../model/book";
 import createSpy = jasmine.createSpy;
 
 const booksTestData = () => [{
@@ -36,32 +33,35 @@ const booksTestData = () => [{
 describe('BookListComponent', () => {
 
   let bookServiceMock: SpyObj<BooksService>;
+  let booksFacadeServiceMock: any;
+
   let testedComponent: BookListComponent;
 
   beforeEach(() => {
     bookServiceMock = createSpyObj('BooksService', ['getBooks', 'save']);
     bookServiceMock.getBooks.and.returnValue(of(booksTestData()));
+
+    booksFacadeServiceMock = {
+      books$: new Subject<Book[]>(),
+      selectedBook$: new Subject<Book | null>(),
+      loadBooks: createSpy(),
+      queryBooks: createSpy(),
+      selectBook: createSpy(),
+      deselectBook: createSpy(),
+      save: createSpy()
+    };
   });
 
   describe('[DOM]', () => {
 
     let fixture: ComponentFixture<BookListComponent>;
     let nativeElement: any;
-    let storeMock: MockStore;
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [BookListComponent, BookDetailsComponent],
         imports: [MaterialModule, BrowserAnimationsModule, ReactiveFormsModule, SharedModule],
-        providers: [
-          provideMockStore({
-            initialState: INITIAL_BOOKS_STATE,
-            selectors: [
-              {selector: BooksSelector.getBooks, value: booksTestData()},
-              {selector: BooksSelector.getSelectedBook, value: null}
-            ]
-          })
-        ]
+        providers: [{provide: BooksFacadeService, useValue: booksFacadeServiceMock}]
       }).compileComponents();
     });
 
@@ -89,7 +89,6 @@ describe('BookListComponent', () => {
       fixture = TestBed.createComponent(BookListComponent);
       testedComponent = fixture.componentInstance;
       nativeElement = fixture.nativeElement;
-      storeMock = TestBed.inject(MockStore);
       detectChanges();
     });
 
@@ -106,52 +105,61 @@ describe('BookListComponent', () => {
       // given
       expect(editor()).toBeFalsy();
       expect(editorButtons()).toBeFalsy();
+      booksFacadeServiceMock.books$.next(booksTestData());
+      detectChanges();
 
       // when
       const position = 1
       const book = booksTestData()[position];
       clickAt(bookAt(1));
-      storeMock.overrideSelector(BooksSelector.getSelectedBook, book);
-      storeMock.refreshState();
+      booksFacadeServiceMock.selectedBook$.next(book);
       detectChanges();
 
       // then
       expect(editor()).toBeTruthy();
       expect(editorButtons()).toBeTruthy();
+      expect(booksFacadeServiceMock.selectBook).toHaveBeenCalledWith(book);
     });
 
     it('displays three books', () => {
+      // when
+      booksFacadeServiceMock.books$.next(booksTestData());
+      detectChanges();
+      // then
       expect(booksList().length).toEqual(3);
     });
 
     it('closes an editor when cancel is clicked', () => {
       // given
+      booksFacadeServiceMock.books$.next(booksTestData());
+      detectChanges();
       const position = 1;
       const book = booksTestData()[position];
-      storeMock.overrideSelector(BooksSelector.getSelectedBook, book);
-      storeMock.refreshState();
       clickAt(bookAt(position));
+      booksFacadeServiceMock.selectedBook$.next(book);
       detectChanges();
       expect(editor()).toBeTruthy();
       expect(editorButtons()).toBeTruthy();
       // when
       clickAt(cancelButton());
-      storeMock.overrideSelector(BooksSelector.getSelectedBook, null);
-      storeMock.refreshState();
+      booksFacadeServiceMock.selectedBook$.next(null);
       detectChanges();
       // then
       expect(editor()).toBeFalsy();
       expect(editorButtons()).toBeFalsy();
+      expect(booksFacadeServiceMock.selectBook).toHaveBeenCalledOnceWith(book);
+      expect(booksFacadeServiceMock.deselectBook).toHaveBeenCalledOnceWith();
     });
 
     it('save cannot be clicked if there are no changes in the form', () => {
       // given
+      booksFacadeServiceMock.books$.next(booksTestData());
+      detectChanges();
       const position = 1;
       const book = booksTestData()[position];
-      storeMock.overrideSelector(BooksSelector.getSelectedBook, book);
-      storeMock.refreshState();
       // when
       clickAt(bookAt(position));
+      booksFacadeServiceMock.selectedBook$.next(book);
       detectChanges();
       expect(editor()).toBeTruthy();
       expect(editorButtons()).toBeTruthy();
@@ -159,8 +167,10 @@ describe('BookListComponent', () => {
       expect(saveButton().disabled).toBeTruthy();
     });
 
-    it('saves a changed book and closes the editor once save is clicked', (done) => {
+    it('saves a changed book and closes the editor once save is clicked', () => {
       // given
+      booksFacadeServiceMock.books$.next(booksTestData());
+      detectChanges();
       const newTitle = "foo";
       const newAuthor = "bar";
       const newDescription = "1234";
@@ -170,15 +180,10 @@ describe('BookListComponent', () => {
         author: newAuthor,
         description: newDescription
       };
-      storeMock.scannedActions$.pipe(ofType(saveBookAction)).subscribe(action => {
-        expect(action.book).toEqual(bookAfterUpdate);
-        done();
-      });
       const position = 1;
       const book = booksTestData()[position];
-      storeMock.overrideSelector(BooksSelector.getSelectedBook, book);
-      storeMock.refreshState();
       clickAt(bookAt(position));
+      booksFacadeServiceMock.selectedBook$.next(book);
       detectChanges(); // selectedBook is not null now
       expect(saveButton().disabled).toBeTruthy();
       // when
@@ -188,49 +193,11 @@ describe('BookListComponent', () => {
       detectChanges();
       expect(saveButton().disabled).toBeFalsy();
       clickAt(saveButton());
-      storeMock.overrideSelector(BooksSelector.getSelectedBook, null);
-      storeMock.refreshState();
+      booksFacadeServiceMock.selectedBook$.next(null);
       detectChanges(); // no book is selected now, book list is refreshed
       // then
       expect(editor()).toBeFalsy();
       expect(editorButtons()).toBeFalsy();
-    });
-  });
-
-  // seems to be redundant
-  xdescribe('[class]', () => {
-
-    let storeMock: any;
-
-    beforeEach(() => {
-      storeMock = {
-        pipe: createSpy(),
-        dispatch: createSpy()
-      };
-      testedComponent = new BookListComponent(storeMock);
-    });
-
-    it('initially no book is selected', () => {
-      // expect(testedComponent.selectedBook).toBeNull();
-    });
-
-    it('has books$ initialized with a list of three', (done) => {
-      storeMock.pipe.and.returnValue(of(booksTestData));
-      testedComponent.books$.subscribe( books => {
-        expect(books).toHaveSize(3);
-        done();
-      });
-    });
-
-    // seems to be redundant
-    it('can select a book', (done) => {
-      storeMock.pipe.and.returnValue(of(booksTestData));
-      testedComponent.books$.subscribe(books => {
-        const bookToBeSelected = books[1];
-        testedComponent.selectBook(bookToBeSelected);
-        // expect(testedComponent.selectedBook).toEqual(bookToBeSelected);
-        done();
-      })
     });
   });
 });
