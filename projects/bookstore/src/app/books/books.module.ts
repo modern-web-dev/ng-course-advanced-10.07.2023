@@ -12,7 +12,8 @@ import {BOOKS_FEATURE, booksStateReducer} from "./store/books.reducer";
 import {EffectsModule} from "@ngrx/effects";
 import {BooksEffects} from "./store/books.effects";
 import {BooksFacadeService} from "./store/books-facade.service";
-import { PublisherDetailsComponent } from './components/book-list/publisher-details/publisher-details.component';
+import {PublisherDetailsComponent} from './components/book-list/publisher-details/publisher-details.component';
+import {WidgetsModule} from "../../../../widgets/src/lib/widgets.module";
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { PublisherDetailsComponent } from './components/book-list/publisher-deta
     HttpClientModule,
     ReactiveFormsModule,
     MaterialModule,
+    WidgetsModule,
     StoreModule.forFeature(BOOKS_FEATURE, booksStateReducer),
     EffectsModule.forFeature([BooksEffects])
   ],
